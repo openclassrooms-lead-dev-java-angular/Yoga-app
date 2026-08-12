@@ -1,6 +1,6 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { SessionService } from "../core/service/session.service";
+import { SessionService } from "@app/core/service/session.service";
 import { inject } from "@angular/core";
 
 export function customJwtInterceptorFn(request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {

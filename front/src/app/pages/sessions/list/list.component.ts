@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SessionInformation } from '../../../../core/models/sessionInformation.interface';
-import { SessionService } from '../../../../core/service/session.service';
-import { Session } from '../../../../core/models/session.interface';
-import { SessionApiService } from '../../../../core/service/session-api.service';
-import { MaterialModule } from "../../../../shared/material.module";
+import { SessionInformation } from '@app/core/models/sessionInformation.interface';
+import { SessionService } from '@app/core/service/session.service';
+import { Session } from '@app/core/models/session.interface';
+import { SessionApiService } from '@app/core/service/session-api.service';
+import { MaterialModule } from "../../../shared/material.module";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
 

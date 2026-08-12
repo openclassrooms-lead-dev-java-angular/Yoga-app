@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../core/service/auth.service';
-import { RegisterRequest } from '../../core/models/registerRequest.interface';
-import { MaterialModule } from "../../shared/material.module";
+import { AuthService } from '@app/core/service/auth.service';
+import { RegisterRequest } from '@app/core/models/registerRequest.interface';
+import { MaterialModule } from "../../../shared/material.module";
 import { CommonModule } from "@angular/common";
+
 @Component({
   selector: 'app-register',
   imports: [CommonModule, MaterialModule],

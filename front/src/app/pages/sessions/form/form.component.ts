@@ -2,11 +2,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SessionService } from '../../../../core/service/session.service';
-import { TeacherService } from '../../../../core/service/teacher.service';
-import { Session } from '../../../../core/models/session.interface';
-import { SessionApiService } from '../../../../core/service/session-api.service';
-import { MaterialModule } from "../../../../shared/material.module";
+import { SessionService } from '@app/core/service/session.service';
+import { TeacherService } from '@app/core/service/teacher.service';
+import { Session } from '@app/core/models/session.interface';
+import { SessionApiService } from '@app/core/service/session-api.service';
+import { MaterialModule } from "../../../shared/material.module";
 import { CommonModule } from "@angular/common";
 
 @Component({
