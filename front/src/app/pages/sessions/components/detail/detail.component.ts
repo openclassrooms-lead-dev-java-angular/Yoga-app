@@ -42,17 +42,17 @@ export class DetailComponent implements OnInit {
     this.fetchSession();
   }
 
-  public back() {
+  public back(): void {
     window.history.back();
   }
 
   public delete(): void {
     this.sessionApiService
       .delete(this.sessionId)
-      .subscribe((_: any) => {
-          this.matSnackBar.open('Session deleted !', 'Close', { duration: 3000 });
-          this.router.navigate(['sessions']);
-        }
+      .subscribe(() => {
+        this.matSnackBar.open('Session deleted !', 'Close', { duration: 3000 });
+        this.router.navigate(['sessions']);
+      }
       );
   }
 
