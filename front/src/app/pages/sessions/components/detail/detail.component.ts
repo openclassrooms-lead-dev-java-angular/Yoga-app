@@ -20,8 +20,8 @@ export class DetailComponent implements OnInit {
   public teacher: Teacher | undefined;
   public isParticipate = false;
   public isAdmin = false;
-  public sessionId: string;
-  public userId: string;
+  public sessionId!: string;
+  public userId!: string;
 
   private route = inject(ActivatedRoute);
   private sessionService = inject(SessionService);
@@ -30,13 +30,11 @@ export class DetailComponent implements OnInit {
   private matSnackBar = inject(MatSnackBar);
   private router = inject(Router);
 
-  constructor() {
+  ngOnInit(): void {
     this.sessionId = this.route.snapshot.paramMap.get('id')!;
     this.isAdmin = this.sessionService.sessionInformation!.admin;
     this.userId = this.sessionService.sessionInformation!.id.toString();
-  }
 
-  ngOnInit(): void {
     this.fetchSession();
   }
 
