@@ -7,10 +7,8 @@ import { SessionInformation } from '@models/sessionInformation.interface';
 })
 export class SessionService {
 
-  public isLogged = false;
   public sessionInformation: SessionInformation | undefined;
-
-  private isLoggedSubject = new BehaviorSubject<boolean>(this.isLogged);
+  private isLoggedSubject = new BehaviorSubject<boolean>(false);
 
   public $isLogged(): Observable<boolean> {
     return this.isLoggedSubject.asObservable();
@@ -18,17 +16,11 @@ export class SessionService {
 
   public logIn(user: SessionInformation): void {
     this.sessionInformation = user;
-    this.isLogged = true;
-    this.next();
+    this.isLoggedSubject.next(true);
   }
 
   public logOut(): void {
     this.sessionInformation = undefined;
-    this.isLogged = false;
-    this.next();
-  }
-
-  private next(): void {
-    this.isLoggedSubject.next(this.isLogged);
+    this.isLoggedSubject.next(false);
   }
 }

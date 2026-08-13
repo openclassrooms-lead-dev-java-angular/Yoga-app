@@ -5,7 +5,7 @@ import { SessionService } from "@service/auth/session.service";
 
 export function JwtInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const sessionService = inject(SessionService);
-  if (sessionService.isLogged) {
+  if (sessionService.sessionInformation) {
     request = request.clone({
       setHeaders: {
         Authorization: `Bearer ${sessionService.sessionInformation!.token}`,
