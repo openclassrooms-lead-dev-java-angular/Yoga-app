@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { CommonModule } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { User } from '@models/user.interface';
 import { SessionService } from '@service/auth/session.service';
 import { UserService } from '@service/user/user.service';
@@ -18,6 +18,7 @@ export class MeComponent implements OnInit {
   private sessionService = inject(SessionService);
   private matSnackBar = inject(MatSnackBar);
   private userService = inject(UserService);
+  private location = inject(Location);
   public user: User | undefined;
 
 
@@ -28,7 +29,7 @@ export class MeComponent implements OnInit {
   }
 
   public back(): void {
-    window.history.back();
+    this.location.back();
   }
 
   public delete(): void {
