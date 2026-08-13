@@ -14,13 +14,14 @@ import { MaterialModule } from "../../shared/material.module";
   styleUrls: ['./me.component.scss']
 })
 export class MeComponent implements OnInit {
+
   private router = inject(Router);
   private sessionService = inject(SessionService);
   private matSnackBar = inject(MatSnackBar);
   private userService = inject(UserService);
   private location = inject(Location);
-  public user: User | undefined;
 
+  public user: User | undefined;
 
   ngOnInit(): void {
     this.userService
@@ -41,5 +42,4 @@ export class MeComponent implements OnInit {
         this.router.navigate(['/']);
       })
   }
-
 }

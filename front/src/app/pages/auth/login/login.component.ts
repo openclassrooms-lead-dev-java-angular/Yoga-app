@@ -15,6 +15,7 @@ import { MaterialModule } from "../../../shared/material.module";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  
   private authService = inject(AuthService);
   private fb = inject(FormBuilder);
   private router = inject(Router);
