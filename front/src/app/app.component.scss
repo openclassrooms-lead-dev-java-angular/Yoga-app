@@ -3,6 +3,11 @@
         cursor: pointer;
         font-size: 16px;
         text-decoration: none;
+
+        background: none;
+        border: none;
+        padding: 0;
+        font: inherit;
     }
 
     .link + .link {
