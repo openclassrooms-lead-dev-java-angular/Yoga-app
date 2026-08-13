@@ -8,6 +8,7 @@ import { RegisterComponent } from "@pages/auth/register/register.component";
 import { ListComponent } from "@pages/sessions/list/list.component";
 import { DetailComponent } from "@pages/sessions/detail/detail.component";
 import { FormComponent } from "@pages/sessions/form/form.component";
+import { AdminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
   {
@@ -41,12 +42,14 @@ export const routes: Routes = [
       },
       {
         path: 'create',
+        canActivate: [AdminGuard],
         component: FormComponent,
         data: { title: 'Sessions - create' },
       },
 
       {
         path: 'update/:id',
+        canActivate: [AdminGuard],
         component: FormComponent,
         data: { title: 'Sessions - update' },
       },

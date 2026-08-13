@@ -13,7 +13,6 @@ import {MaterialModule} from "./shared/material.module";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  private authService = inject(AuthService);
   private router = inject(Router);
   private sessionService = inject(SessionService);
 

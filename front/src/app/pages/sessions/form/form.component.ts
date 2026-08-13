@@ -27,16 +27,13 @@ export class FormComponent implements OnInit {
   public onUpdate: boolean = false;
   public sessionForm: FormGroup | undefined;
   public teachers$ = this.teacherService.all();
-  private id: string | undefined;
+  private id: string | null | undefined;
 
   ngOnInit(): void {
-    if (!this.sessionService.sessionInformation!.admin) {
-      this.router.navigate(['/sessions']);
-    }
-    const url = this.router.url;
-    if (url.includes('update')) {
+    this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id) {
       this.onUpdate = true;
-      this.id = this.route.snapshot.paramMap.get('id')!;
       this.sessionApiService
         .detail(this.id)
         .subscribe((session: Session) => this.initForm(session));
