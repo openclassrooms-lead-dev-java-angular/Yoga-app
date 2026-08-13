@@ -1,11 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { User } from '@app/core/models/user.interface';
-import { SessionService } from '@app/core/service/session.service';
-import { UserService } from '@app/core/service/user.service';
-import { MaterialModule } from "../../shared/material.module";
 import { CommonModule } from "@angular/common";
+import { User } from '@models/user.interface';
+import { SessionService } from '@service/auth/session.service';
+import { UserService } from '@service/user/user.service';
+import { MaterialModule } from "../../shared/material.module";
 
 @Component({
   selector: 'app-me',

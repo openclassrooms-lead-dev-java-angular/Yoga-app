@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SessionInformation } from 'src/app/core/models/sessionInformation.interface';
-import { SessionService } from 'src/app/core/service/session.service';
-import { LoginRequest } from '@app/core/models/loginRequest.interface';
-import { AuthService } from '@app/core/service/auth.service';
-import { MaterialModule } from "../../../shared/material.module";
 import { CommonModule } from '@angular/common';
+import { SessionInformation } from '@models/sessionInformation.interface';
+import { LoginRequest } from '@models/loginRequest.interface';
+import { SessionService } from '@service/auth/session.service';
+import { AuthService } from '@service/auth/auth.service';
+import { MaterialModule } from "../../../shared/material.module";
 
 @Component({
   selector: 'app-login',

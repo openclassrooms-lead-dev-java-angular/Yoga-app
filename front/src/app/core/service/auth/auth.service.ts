@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LoginRequest } from '../models/loginRequest.interface';
-import { RegisterRequest } from '../models/registerRequest.interface';
-import { SessionInformation } from 'src/app/core/models/sessionInformation.interface';
+import { LoginRequest } from '@models/loginRequest.interface';
+import { RegisterRequest } from '@models/registerRequest.interface';
+import { SessionInformation } from '@models/sessionInformation.interface';
 
 @Injectable({
   providedIn: 'root'

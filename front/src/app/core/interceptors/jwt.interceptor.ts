@@ -1,9 +1,9 @@
 import { HttpEvent, HttpHandlerFn, HttpRequest } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { SessionService } from "@app/core/service/session.service";
 import { inject } from "@angular/core";
+import { SessionService } from "@service/auth/session.service";
 
-export function customJwtInterceptorFn(request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+export function JwtInterceptor(request: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const sessionService = inject(SessionService);
   if (sessionService.isLogged) {
     request = request.clone({

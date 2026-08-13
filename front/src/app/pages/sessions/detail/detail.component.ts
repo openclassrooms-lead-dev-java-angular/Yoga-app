@@ -1,13 +1,13 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Teacher } from '@app/core/models/teacher.interface';
-import { SessionService } from '@app/core/service/session.service';
-import { TeacherService } from '@app/core/service/teacher.service';
-import { Session } from '@app/core/models/session.interface';
-import { SessionApiService } from '@app/core/service/session-api.service';
-import { MaterialModule } from "../../../shared/material.module";
 import { CommonModule } from "@angular/common";
+import { Teacher } from '@models/teacher.interface';
+import { SessionService } from '@service/auth/session.service';
+import { TeacherService } from '@service/teacher/teacher.service';
+import { Session } from '@models/session.interface';
+import { SessionApiService } from '@service/session/session-api.service';
+import { MaterialModule } from "../../../shared/material.module";
 
 @Component({
   selector: 'app-detail',

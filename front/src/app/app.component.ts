@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import {Router, RouterModule, RouterOutlet} from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from './core/service/auth.service';
-import { SessionService } from './core/service/session.service';
 import {CommonModule} from "@angular/common";
+import { Observable } from 'rxjs';
+import { AuthService } from '@service/auth/auth.service';
+import { SessionService } from '@service/auth/session.service';
 import {MaterialModule} from "./shared/material.module";
 
 @Component({

@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { SessionInformation } from '@app/core/models/sessionInformation.interface';
-import { SessionService } from '@app/core/service/session.service';
-import { Session } from '@app/core/models/session.interface';
-import { SessionApiService } from '@app/core/service/session-api.service';
-import { MaterialModule } from "../../../shared/material.module";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
+import { Observable } from 'rxjs';
+import { SessionInformation } from '@models/sessionInformation.interface';
+import { Session } from '@models/session.interface';
+import { SessionService } from '@service/auth/session.service';
+import { SessionApiService } from '@service/session/session-api.service';
+import { MaterialModule } from "../../../shared/material.module";
 
 @Component({
   selector: 'app-list',
