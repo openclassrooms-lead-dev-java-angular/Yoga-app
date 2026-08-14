@@ -9,7 +9,7 @@ export class AdminGuard {
     private router = inject(Router);
     private sessionService = inject(SessionService);
 
-    public canActivate(): boolean | Promise<boolean> | UrlTree {
+    public canActivate(): boolean | UrlTree {
         const session = this.sessionService.sessionInformation;
 
         if (!session) {
