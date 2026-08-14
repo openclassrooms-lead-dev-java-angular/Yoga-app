@@ -1,6 +1,6 @@
 package com.openclassrooms.starterjwt.exception;
 
-import com.openclassrooms.starterjwt.dto.ErrorResponseDto;
+import com.openclassrooms.starterjwt.dto.response.ErrorResponseDto;
 import jakarta.servlet.ServletException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
