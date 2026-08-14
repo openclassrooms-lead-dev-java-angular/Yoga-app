@@ -1,4 +1,4 @@
-package com.openclassrooms.starterjwt.dto;
+package com.openclassrooms.starterjwt.dto.response;
 
 import org.springframework.http.HttpStatus;
 
