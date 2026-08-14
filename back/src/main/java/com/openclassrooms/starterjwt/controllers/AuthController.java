@@ -2,10 +2,10 @@ package com.openclassrooms.starterjwt.controllers;
 
 
 import com.openclassrooms.starterjwt.models.User;
-import com.openclassrooms.starterjwt.payload.request.LoginRequest;
-import com.openclassrooms.starterjwt.payload.request.SignupRequest;
-import com.openclassrooms.starterjwt.payload.response.JwtResponse;
-import com.openclassrooms.starterjwt.payload.response.MessageResponse;
+import com.openclassrooms.starterjwt.dto.request.LoginRequestDto;
+import com.openclassrooms.starterjwt.dto.request.SignupRequestDto;
+import com.openclassrooms.starterjwt.dto.response.JwtResponseDto;
+import com.openclassrooms.starterjwt.dto.response.MessageResponseDto;
 import com.openclassrooms.starterjwt.repository.UserRepository;
 import com.openclassrooms.starterjwt.security.jwt.JwtUtils;
 import com.openclassrooms.starterjwt.security.services.UserDetailsImpl;
@@ -40,7 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequestDto loginRequest) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
@@ -55,7 +55,7 @@ public class AuthController {
             isAdmin = user.isAdmin();
         }
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
+        return ResponseEntity.ok(new JwtResponseDto(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getFirstName(),
@@ -64,22 +64,22 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestDto signUpRequestDto) {
+        if (userRepository.existsByEmail(signUpRequestDto.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Email is already taken!"));
+                    .body(new MessageResponseDto("Error: Email is already taken!"));
         }
 
         // Create new user's account
-        User user = new User(signUpRequest.getEmail(),
-                signUpRequest.getLastName(),
-                signUpRequest.getFirstName(),
-                passwordEncoder.encode(signUpRequest.getPassword()),
+        User user = new User(signUpRequestDto.getEmail(),
+                signUpRequestDto.getLastName(),
+                signUpRequestDto.getFirstName(),
+                passwordEncoder.encode(signUpRequestDto.getPassword()),
                 false);
 
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        return ResponseEntity.ok(new MessageResponseDto("User registered successfully!"));
     }
 }

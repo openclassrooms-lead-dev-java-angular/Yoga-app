@@ -1,10 +1,10 @@
-package com.openclassrooms.starterjwt.payload.response;
+package com.openclassrooms.starterjwt.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class MessageResponse {
+public class MessageResponseDto {
     private String message;
 }

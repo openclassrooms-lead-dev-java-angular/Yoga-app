@@ -1,4 +1,4 @@
-package com.openclassrooms.starterjwt.payload.request;
+package com.openclassrooms.starterjwt.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -8,7 +8,7 @@ import lombok.Data;
 
 
 @Data
-public class SignupRequest {
+public class SignupRequestDto {
     @NotBlank
     @Size(max = 50)
     @Email
