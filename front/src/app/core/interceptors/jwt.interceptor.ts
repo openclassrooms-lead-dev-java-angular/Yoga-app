@@ -8,7 +8,7 @@ export function JwtInterceptor(request: HttpRequest<unknown>, next: HttpHandlerF
   if (sessionService.sessionInformation) {
     request = request.clone({
       setHeaders: {
-        Authorization: `Bearer ${sessionService.sessionInformation!.token}`,
+        Authorization: `Bearer ${sessionService.sessionInformation.token}`,
       },
     });
   }
