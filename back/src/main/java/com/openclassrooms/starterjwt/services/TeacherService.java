@@ -1,5 +1,6 @@
 package com.openclassrooms.starterjwt.services;
 
+import com.openclassrooms.starterjwt.exception.NotFoundException;
 import com.openclassrooms.starterjwt.models.Teacher;
 import com.openclassrooms.starterjwt.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class TeacherService {
+
     private final TeacherRepository teacherRepository;
 
     public List<Teacher> findAll() {
@@ -17,6 +19,8 @@ public class TeacherService {
     }
 
     public Teacher findById(Long id) {
-        return this.teacherRepository.findById(id).orElse(null);
+        return this.teacherRepository
+                .findById(id)
+                .orElseThrow(NotFoundException::new);
     }
 }
