@@ -1,12 +1,9 @@
 package com.openclassrooms.starterjwt.controllers;
 
-
-import com.openclassrooms.starterjwt.mapper.UserMapper;
 import com.openclassrooms.starterjwt.dto.request.LoginRequestDto;
 import com.openclassrooms.starterjwt.dto.request.SignupRequestDto;
 import com.openclassrooms.starterjwt.dto.response.JwtResponseDto;
 import com.openclassrooms.starterjwt.dto.response.MessageResponseDto;
-import com.openclassrooms.starterjwt.repository.UserRepository;
 import com.openclassrooms.starterjwt.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-
     private final AuthService authService;
-
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
 
 
     @PostMapping("/login")
