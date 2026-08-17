@@ -42,4 +42,17 @@ public class UserService {
 
         return user;
     }
+
+    public User findByEmail(String email) {
+        return this.userRepository.findByEmail(email)
+                .orElseThrow(NotFoundException::new);
+    }
+
+    public void save(User user) {
+        this.userRepository.save(user);
+    }
+
+    public Boolean existsByEmail(String email) {
+        return this.userRepository.existsByEmail(email);
+    }
 }
