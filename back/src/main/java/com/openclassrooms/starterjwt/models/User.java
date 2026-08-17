@@ -10,14 +10,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -26,54 +19,58 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+
 @Entity
-@Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email")
-})
-@Data
-@Accessors(chain = true)
+@Table(
+        name = "users",
+        uniqueConstraints = @UniqueConstraint(columnNames = "email")
+)
 @EntityListeners(AuditingEntityListener.class)
-@EqualsAndHashCode(of = {"id"})
+@Getter
+@Setter
+@Accessors(chain = true)
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Builder
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor
-@ToString
-public class User {
+public class User extends BaseEntity
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
     @Size(max = 50)
     @Email
-    @Column(nullable = false)
+    @Column(
+        nullable = false,
+        length = 50
+    )
     private String email;
 
-    @NonNull
     @Size(max = 20)
-    @Column(nullable = false)
+    @Column(
+        nullable = false,
+        length = 20,
+        name = "last_name"
+    )
     private String lastName;
 
-    @NonNull
     @Size(max = 20)
-    @Column(nullable = false)
+    @Column(
+        nullable = false,
+        length = 20,
+        name = "first_name"
+    )
     private String firstName;
 
-    @NonNull
     @Size(max = 120)
-    @Column(nullable = false)
+    @Column(
+        nullable = false,
+        length = 120
+    )
     private String password;
 
-    @NonNull
-    private boolean admin;
-
-    @CreatedDate
-    @Column(updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime updatedAt;
+    @Column(nullable = false)
+    private Boolean admin;
 
 }

@@ -14,6 +14,12 @@ import java.time.Instant;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private final String BadRequestMessage = "The request is invalid.";
+    private final String NotFoundMessage = "The requested resource was not found.";
+    private final String UnauthorizedMessage = "The requested resource was not found.";
+    private final String InternalServerErrorMessage = "An unexpected error occurred.";
+
+
     // BAD_REQUEST
 
     /**
@@ -24,7 +30,12 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = BadRequestException.class)
     public ResponseEntity<ErrorResponseDto> handleBadRequestException(BadRequestException e) {
-        return buildResponse(HttpStatus.BAD_REQUEST, "The request is invalid.");
+        return buildResponse(HttpStatus.BAD_REQUEST, BadRequestMessage);
+    }
+
+    @ExceptionHandler(value = NumberFormatException.class)
+    public ResponseEntity<ErrorResponseDto> handleNumberFormatException(NumberFormatException e) {
+        return buildResponse(HttpStatus.BAD_REQUEST, BadRequestMessage);
     }
 
     // NOT_FOUND
@@ -37,7 +48,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = NotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleNotFoundException(NotFoundException e) {
-        return buildResponse(HttpStatus.NOT_FOUND, "The requested resource was not found.");
+        return buildResponse(HttpStatus.NOT_FOUND, NotFoundMessage);
     }
 
     // UNAUTHORIZED
@@ -50,7 +61,12 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = UsernameNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleUsernameNotFoundException(UsernameNotFoundException e) {
-        return buildResponse(HttpStatus.UNAUTHORIZED, "Authentication is required.");
+        return buildResponse(HttpStatus.UNAUTHORIZED, UnauthorizedMessage);
+    }
+
+    @ExceptionHandler(value = UnauthorizedException.class)
+    public ResponseEntity<ErrorResponseDto> handleUnauthorizedException(UnauthorizedException e) {
+        return buildResponse(HttpStatus.UNAUTHORIZED, UnauthorizedMessage);
     }
 
     // INTERNAL_SERVER_ERROR
@@ -63,7 +79,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = IOException.class)
     public ResponseEntity<ErrorResponseDto> handleIOException(IOException e) {
-        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred.");
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, InternalServerErrorMessage);
     }
 
     /**
@@ -74,7 +90,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ServletException.class)
     public ResponseEntity<ErrorResponseDto> handleServletException(ServletException e) {
-        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred.");
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, InternalServerErrorMessage);
     }
 
     /**
@@ -85,7 +101,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponseDto> handleException(Exception e) {
-        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred.");
+        return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, InternalServerErrorMessage);
     }
 
     // response builder

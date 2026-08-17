@@ -30,7 +30,7 @@ public class UserDto {
     private String firstName;
 
     @NonNull
-    private boolean admin;
+    private Boolean admin;
 
     @JsonIgnore
     @Size(max = 120)

@@ -1,6 +1,7 @@
 package com.openclassrooms.starterjwt.controllers;
 
 
+import com.openclassrooms.starterjwt.mapper.UserMapper;
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.dto.request.LoginRequestDto;
 import com.openclassrooms.starterjwt.dto.request.SignupRequestDto;
@@ -31,6 +32,7 @@ public class AuthController {
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
 
     @PostMapping("/login")
@@ -46,7 +48,7 @@ public class AuthController {
         boolean isAdmin = false;
         User user = this.userRepository.findByEmail(userDetails.getUsername()).orElse(null);
         if (user != null) {
-            isAdmin = user.isAdmin();
+            isAdmin = user.getAdmin();
         }
 
         return ResponseEntity.ok(new JwtResponseDto(jwt,
@@ -66,11 +68,12 @@ public class AuthController {
         }
 
         // Create new user's account
-        User user = new User(signUpRequestDto.getEmail(),
-                signUpRequestDto.getLastName(),
-                signUpRequestDto.getFirstName(),
-                passwordEncoder.encode(signUpRequestDto.getPassword()),
-                false);
+        User user = new User();
+        user.setEmail(signUpRequestDto.getEmail());
+        user.setPassword(passwordEncoder.encode(signUpRequestDto.getPassword()));
+        user.setFirstName(signUpRequestDto.getFirstName());
+        user.setLastName(signUpRequestDto.getLastName());
+        user.setAdmin(false);
 
         userRepository.save(user);
 
