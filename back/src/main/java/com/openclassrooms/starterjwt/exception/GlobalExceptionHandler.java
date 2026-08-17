@@ -19,7 +19,6 @@ public class GlobalExceptionHandler {
     private final String UnauthorizedMessage = "The requested resource was not found.";
     private final String InternalServerErrorMessage = "An unexpected error occurred.";
 
-
     // BAD_REQUEST
 
     /**
@@ -33,9 +32,27 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.BAD_REQUEST, BadRequestMessage);
     }
 
+    /**
+     * NumberFormatException
+     * @param e exception message string
+     * @return ErrorResponse dto
+     */
     @ExceptionHandler(value = NumberFormatException.class)
     public ResponseEntity<ErrorResponseDto> handleNumberFormatException(NumberFormatException e) {
         return buildResponse(HttpStatus.BAD_REQUEST, BadRequestMessage);
+    }
+
+    /**
+     * Email conflict
+     *
+     * May be this http status to 409 conflict, check in front
+     *
+     * @param e exception
+     * @return ErrorResponseDto
+     */
+    @ExceptionHandler(value = ConflictException.class)
+    public ResponseEntity<ErrorResponseDto> handleConflictException(ConflictException e) {
+        return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     // NOT_FOUND
