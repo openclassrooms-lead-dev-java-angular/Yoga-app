@@ -2,6 +2,7 @@ package com.openclassrooms.starterjwt.exception;
 
 import com.openclassrooms.starterjwt.dto.response.ErrorResponseDto;
 import jakarta.servlet.ServletException;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.time.Instant;
 
 @RestControllerAdvice
+@Log4j2
 public class GlobalExceptionHandler {
 
     private final String BadRequestMessage = "The request is invalid.";
@@ -29,6 +31,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = BadRequestException.class)
     public ResponseEntity<ErrorResponseDto> handleBadRequestException(BadRequestException e) {
+        log.error(e);
         return buildResponse(HttpStatus.BAD_REQUEST, BadRequestMessage);
     }
 
@@ -39,19 +42,21 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = NumberFormatException.class)
     public ResponseEntity<ErrorResponseDto> handleNumberFormatException(NumberFormatException e) {
+        log.error(e);
         return buildResponse(HttpStatus.BAD_REQUEST, BadRequestMessage);
     }
 
     /**
      * Email conflict
      *
-     * May be this http status to 409 conflict, check in front
+     * Maybe this http status to 409 conflict, check in front
      *
      * @param e exception
      * @return ErrorResponseDto
      */
     @ExceptionHandler(value = ConflictException.class)
     public ResponseEntity<ErrorResponseDto> handleConflictException(ConflictException e) {
+        log.error(e);
         return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
@@ -65,6 +70,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = NotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleNotFoundException(NotFoundException e) {
+        log.error(e);
         return buildResponse(HttpStatus.NOT_FOUND, NotFoundMessage);
     }
 
@@ -78,11 +84,13 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = UsernameNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleUsernameNotFoundException(UsernameNotFoundException e) {
+        log.error(e);
         return buildResponse(HttpStatus.UNAUTHORIZED, UnauthorizedMessage);
     }
 
     @ExceptionHandler(value = UnauthorizedException.class)
     public ResponseEntity<ErrorResponseDto> handleUnauthorizedException(UnauthorizedException e) {
+        log.error(e);
         return buildResponse(HttpStatus.UNAUTHORIZED, UnauthorizedMessage);
     }
 
@@ -96,6 +104,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = IOException.class)
     public ResponseEntity<ErrorResponseDto> handleIOException(IOException e) {
+        log.error(e);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, InternalServerErrorMessage);
     }
 
@@ -107,6 +116,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ServletException.class)
     public ResponseEntity<ErrorResponseDto> handleServletException(ServletException e) {
+        log.error(e);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, InternalServerErrorMessage);
     }
 
@@ -118,6 +128,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<ErrorResponseDto> handleException(Exception e) {
+        log.error(e);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, InternalServerErrorMessage);
     }
 
