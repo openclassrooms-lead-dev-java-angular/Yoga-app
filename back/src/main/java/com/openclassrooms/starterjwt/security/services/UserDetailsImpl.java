@@ -5,11 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 @Builder
@@ -33,8 +35,12 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new HashSet<GrantedAuthority>();
+        if (Boolean.TRUE.equals(admin)) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+        return List.of();
     }
 
     @Override

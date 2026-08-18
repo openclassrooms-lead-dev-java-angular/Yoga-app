@@ -31,6 +31,8 @@ public class AuthService {
 
         // Create new user's account
         User user = userMapper.toEntity(signUpRequestDto);
+        user.setAdmin(false);
+
         this.userService.save(user);
     }
 
