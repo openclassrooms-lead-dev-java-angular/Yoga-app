@@ -2,6 +2,7 @@ package com.openclassrooms.starterjwt.security.services;
 
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -9,12 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
-    UserRepository userRepository;
 
-    UserDetailsServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final UserRepository userRepository;
+
 
     @Override
     @Transactional
@@ -29,6 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 .lastName(user.getLastName())
                 .firstName(user.getFirstName())
                 .password(user.getPassword())
+                .admin(user.getAdmin())
                 .build();
     }
 

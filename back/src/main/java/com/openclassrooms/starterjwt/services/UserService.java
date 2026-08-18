@@ -41,11 +41,6 @@ public class UserService {
                 .orElseThrow(NotFoundException::new);
     }
 
-    public User findByEmail(String email) {
-        return this.userRepository.findByEmail(email)
-                .orElseThrow(NotFoundException::new);
-    }
-
     public void save(User user) {
         this.userRepository.save(user);
     }

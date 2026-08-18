@@ -6,13 +6,12 @@ import com.openclassrooms.starterjwt.dto.response.JwtResponseDto;
 import com.openclassrooms.starterjwt.exception.ConflictException;
 import com.openclassrooms.starterjwt.mapper.UserMapper;
 import com.openclassrooms.starterjwt.models.User;
-import com.openclassrooms.starterjwt.security.jwt.JwtUtils;
+import com.openclassrooms.starterjwt.security.jwt.JwtService;
 import com.openclassrooms.starterjwt.security.services.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +20,7 @@ public class AuthService {
 
     private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
-    private final JwtUtils jwtUtils;
+    private final JwtService jwtUtils;
     private final UserService userService;
 
 
@@ -43,14 +42,8 @@ public class AuthService {
                         loginRequest.getPassword())
         );
 
-        SecurityContextHolder
-                .getContext()
-                .setAuthentication(authentication);
-
-        String jwt = jwtUtils.generateJwtToken(authentication);
+        String jwt = jwtUtils.generateToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-        User user = userService.findByEmail(userDetails.getUsername());
 
         return new JwtResponseDto(
                 jwt,
@@ -58,7 +51,7 @@ public class AuthService {
                 userDetails.getUsername(),
                 userDetails.getFirstName(),
                 userDetails.getLastName(),
-                user.getAdmin()
+                userDetails.getAdmin()
         );
     }
 }

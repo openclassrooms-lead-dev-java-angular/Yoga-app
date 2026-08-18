@@ -7,6 +7,7 @@ import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
@@ -15,6 +16,8 @@ import java.util.Objects;
 @AllArgsConstructor
 @Getter
 public class UserDetailsImpl implements UserDetails {
+
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private Long id;
@@ -52,6 +55,11 @@ public class UserDetailsImpl implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
