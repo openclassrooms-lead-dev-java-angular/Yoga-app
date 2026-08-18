@@ -36,11 +36,9 @@ public class UserService {
 
     public User findById(Long id) {
 
-        User user = this.userRepository
+        return this.userRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
-
-        return user;
     }
 
     public User findByEmail(String email) {
