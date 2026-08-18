@@ -14,10 +14,6 @@ import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-
-import java.time.LocalDateTime;
-
-
 @Entity
 @Table(
         name = "users",
