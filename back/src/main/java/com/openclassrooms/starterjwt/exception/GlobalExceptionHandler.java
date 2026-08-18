@@ -2,10 +2,13 @@ package com.openclassrooms.starterjwt.exception;
 
 import com.openclassrooms.starterjwt.dto.response.ErrorResponseDto;
 import jakarta.servlet.ServletException;
+
 import lombok.extern.log4j.Log4j2;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -31,18 +34,25 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = BadRequestException.class)
     public ResponseEntity<ErrorResponseDto> handleBadRequestException(BadRequestException e) {
-        log.error(e);
+        log.warn(e);
         return buildResponse(HttpStatus.BAD_REQUEST, BadRequestMessage);
     }
 
     /**
-     * NumberFormatException
-     * @param e exception message string
-     * @return ErrorResponse dto
+     * MethodArgumentNotValidException
+     */
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(NumberFormatException e) {
+        log.warn(e);
+        return buildResponse(HttpStatus.BAD_REQUEST, BadRequestMessage);
+    }
+
+    /**
+     * ConstraintViolationException
      */
     @ExceptionHandler(value = NumberFormatException.class)
-    public ResponseEntity<ErrorResponseDto> handleNumberFormatException(NumberFormatException e) {
-        log.error(e);
+    public ResponseEntity<ErrorResponseDto> handleConstraintViolationException(NumberFormatException e) {
+        log.warn(e);
         return buildResponse(HttpStatus.BAD_REQUEST, BadRequestMessage);
     }
 
@@ -56,7 +66,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ConflictException.class)
     public ResponseEntity<ErrorResponseDto> handleConflictException(ConflictException e) {
-        log.error(e);
+        log.warn(e);
         return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
@@ -70,7 +80,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = NotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleNotFoundException(NotFoundException e) {
-        log.error(e);
+        log.warn(e);
         return buildResponse(HttpStatus.NOT_FOUND, NotFoundMessage);
     }
 
@@ -84,13 +94,13 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = UsernameNotFoundException.class)
     public ResponseEntity<ErrorResponseDto> handleUsernameNotFoundException(UsernameNotFoundException e) {
-        log.error(e);
+        log.warn(e);
         return buildResponse(HttpStatus.UNAUTHORIZED, UnauthorizedMessage);
     }
 
     @ExceptionHandler(value = UnauthorizedException.class)
     public ResponseEntity<ErrorResponseDto> handleUnauthorizedException(UnauthorizedException e) {
-        log.error(e);
+        log.warn(e);
         return buildResponse(HttpStatus.UNAUTHORIZED, UnauthorizedMessage);
     }
 
@@ -154,7 +164,7 @@ public class GlobalExceptionHandler {
     }
 }
 
-
+// todo remove
 //? AuthenticationException     401     Authentication is required.
 //  ExpiredJwtException         401     Authentication is required.
 //  MalformedJwtException       401     Authentication is required.
