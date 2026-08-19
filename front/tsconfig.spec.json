@@ -7,7 +7,16 @@
     ],
     "module": "commonjs",
     "emitDecoratorMetadata": true,
-    "allowJs": true
+    "allowJs": true,
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@core/*": ["src/app/core/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@pages/*": ["src/app/pages/*"],
+      "@service/*": ["src/app/core/service/*"],
+      "@models/*": ["src/app/core/models/*"],
+      "@assets/*": ["src/assets/*"]
+    }
   },
   "files": [
     "src/polyfills.ts"

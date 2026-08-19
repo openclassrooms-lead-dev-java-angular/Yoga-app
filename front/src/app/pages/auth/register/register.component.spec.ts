@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { expect } from '@jest/globals';
 
-import { RegisterComponent } from './register.component';
+import { RegisterComponent } from '@pages/auth/register/register.component';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -16,11 +16,11 @@ describe('RegisterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegisterComponent],
       imports: [
+        RegisterComponent,
         BrowserAnimationsModule,
         HttpClientModule,
-        ReactiveFormsModule,  
+        ReactiveFormsModule,
         MatCardModule,
         MatFormFieldModule,
         MatIconModule,

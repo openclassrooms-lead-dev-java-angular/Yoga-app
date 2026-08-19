@@ -5,19 +5,23 @@ type CompilerOptions = Partial<{
   useJit: boolean;
   preserveWhitespaces: boolean;
 }>;
+
 export type ConfigureFn = (testBed: typeof TestBed) => void;
 
-export const configureTests = (configure: ConfigureFn, compilerOptions: CompilerOptions = {}) => {
+export const configureTests = async (
+  configure: ConfigureFn,
+  compilerOptions: CompilerOptions = {},
+): Promise<typeof TestBed> => {
   const compilerConfig: CompilerOptions = {
     preserveWhitespaces: false,
     ...compilerOptions,
   };
 
-  const configuredTestBed = TestBed.configureCompiler(compilerConfig);
+  TestBed.configureCompiler(compilerConfig);
 
-  // @ts-ignore
-  configure(configuredTestBed);
+  configure(TestBed);
 
-  // @ts-ignore
-  return configuredTestBed.compileComponents().then(() => configuredTestBed);
+  await TestBed.compileComponents();
+
+  return TestBed;
 };

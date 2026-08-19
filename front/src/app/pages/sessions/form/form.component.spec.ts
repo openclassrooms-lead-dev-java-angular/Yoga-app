@@ -10,8 +10,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@jest/globals';
-import { SessionService } from '@app/core/service/auth/session.service';
-import { SessionApiService } from '@app/core/service/session/session-api.service';
+import { SessionService } from '@core/service/auth/session.service';
+import { SessionApiService } from '@core/service/session/session-api.service';
 
 import { FormComponent } from './form.component';
 
@@ -29,6 +29,7 @@ describe('FormComponent', () => {
     await TestBed.configureTestingModule({
 
       imports: [
+        FormComponent,
         RouterTestingModule,
         HttpClientModule,
         MatCardModule,
@@ -43,8 +44,7 @@ describe('FormComponent', () => {
       providers: [
         { provide: SessionService, useValue: mockSessionService },
         SessionApiService
-      ],
-      declarations: [FormComponent]
+      ]
     })
       .compileComponents();
 
