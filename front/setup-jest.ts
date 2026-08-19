@@ -1,7 +1,3 @@
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
-
-setupZoneTestEnv();
-
 /* global mocks for jsdom */
 
 const mock = () => {
@@ -25,11 +21,4 @@ Object.defineProperty(window, 'sessionStorage', {
 
 Object.defineProperty(window, 'getComputedStyle', {
   value: () => ['-webkit-appearance'],
-});
-
-Object.defineProperty(document.body.style, 'transform', {
-  value: () => ({
-    enumerable: true,
-    configurable: true,
-  }),
 });
