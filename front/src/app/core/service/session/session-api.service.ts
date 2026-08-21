@@ -2,15 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Session } from '@models/session.interface';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionApiService {
 
-  private pathService = 'api/session';
+  private readonly pathService = `${environment.api.sessions.baseUrl}/sessions`;
 
-  private httpClient = inject(HttpClient);
+  private readonly httpClient = inject(HttpClient);
 
   public all(): Observable<Session[]> {
     return this.httpClient.get<Session[]>(this.pathService);
