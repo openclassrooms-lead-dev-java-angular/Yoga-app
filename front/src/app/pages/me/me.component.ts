@@ -28,7 +28,10 @@ export class MeComponent implements OnInit {
   ngOnInit(): void {
     this.userService
       .getById(this.sessionService.sessionInformation!.id.toString())
-      .subscribe((user: User) => this.user = user);
+      .subscribe({
+        next: (user: User) => this.user = user,
+        error: () => this.matSnackBar.open('Unable to fetch user', 'Close', { duration: 3000 }),
+    });
   }
 
   public back(): void {
