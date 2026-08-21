@@ -50,9 +50,12 @@ export class DetailComponent implements OnInit {
   public delete(): void {
     this.sessionApiService
       .delete(this.sessionId)
-      .subscribe(() => {
-        this.matSnackBar.open('Session deleted !', 'Close', { duration: 3000 });
-        this.router.navigate(['sessions']);
+      .subscribe({
+        next: () => {
+          this.matSnackBar.open('Session deleted !', 'Close', { duration: 3000 });
+          this.router.navigate(['sessions']);
+        },
+        error: () => this.matSnackBar.open('Unable to delete session', 'Close', { duration: 3000 }),
       });
   }
 
@@ -60,14 +63,20 @@ export class DetailComponent implements OnInit {
     this.sessionApiService
       .participate(this.sessionId, this.userId)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.fetchSession());
+      .subscribe({
+        next: () => this.fetchSession(),
+        error: () => this.matSnackBar.open('Unable to participate', 'Close', { duration: 3000 }),
+      });
   }
 
   public unParticipate(): void {
     this.sessionApiService
       .unParticipate(this.sessionId, this.userId)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.fetchSession());
+      .subscribe({
+        next: () => this.fetchSession(),
+        error: () => this.matSnackBar.open('Unable to unparticipate', 'Close', { duration: 3000 }),
+      });
   }
 
   private fetchSession(): void {
@@ -83,6 +92,9 @@ export class DetailComponent implements OnInit {
         }),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe((teacher: Teacher) => this.teacher = teacher);
+      .subscribe({
+        next: (teacher: Teacher) => this.teacher = teacher,
+        error: () => this.matSnackBar.open('Unable to fetch session', 'Close', { duration: 3000 }),
+      });
   }
 }
