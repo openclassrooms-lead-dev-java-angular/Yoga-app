@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { TeacherService } from '@service/teacher/teacher.service';
 import { Session } from '@models/session.interface';
 import { SessionApiService } from '@service/session/session-api.service';
 import { MaterialModule } from "../../../shared/material.module";
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-form',
@@ -20,9 +21,9 @@ export class FormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private matSnackBar = inject(MatSnackBar);
   private sessionApiService = inject(SessionApiService);
-  private sessionService = inject(SessionService);
   private teacherService = inject(TeacherService);
   private router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   public onUpdate: boolean = false;
   public sessionForm: FormGroup | undefined;
@@ -36,7 +37,11 @@ export class FormComponent implements OnInit {
       this.onUpdate = true;
       this.sessionApiService
         .detail(this.id)
-        .subscribe((session: Session) => this.initForm(session));
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: (session: Session) => this.initForm(session),
+          error: () => this.matSnackBar.open('Unable to fetch session', 'Close', { duration: 3000 }),
+        });
     } else {
       this.initForm();
     }
@@ -48,11 +53,16 @@ export class FormComponent implements OnInit {
     if (!this.onUpdate) {
       this.sessionApiService
         .create(session)
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(() => this.exitPage('Session created !'));
     } else {
       this.sessionApiService
         .update(this.id!, session)
-        .subscribe(() => this.exitPage('Session updated !'));
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => this.exitPage('Session updated !'),
+          error: () => this.matSnackBar.open('Unable to update session', 'Close', { duration: 3000 }),
+        });
     }
   }
 
