@@ -1,10 +1,12 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from "@angular/common";
 import { AuthService } from '@service/auth/auth.service';
 import { RegisterRequest } from '@models/registerRequest.interface';
 import { MaterialModule } from "../../../shared/material.module";
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +19,8 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   public onError = false;
+  private readonly destroyRef = inject(DestroyRef);
+  private matSnackBar = inject(MatSnackBar);
 
   public form = this.fb.group({
     email: [
@@ -55,11 +59,17 @@ export class RegisterComponent {
 
   public submit(): void {
     const registerRequest = this.form.value as RegisterRequest;
-    this.authService.register(registerRequest).subscribe({
-      next: () => this.router.navigate(['/login']),
-      error: () => this.onError = true,
-    }
-    );
+    this.authService.register(registerRequest)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
+        next: () => this.router.navigate(['/login']),
+        error: () => {
+          this.onError = true;
+          this.matSnackBar.open('Unable to register', 'Close', { duration: 3000 });
+        }
+      });
   }
 
 }
