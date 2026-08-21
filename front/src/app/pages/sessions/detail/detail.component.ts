@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, Location } from "@angular/common";
@@ -9,6 +9,7 @@ import { Session } from '@models/session.interface';
 import { SessionApiService } from '@service/session/session-api.service';
 import { MaterialModule } from "../../../shared/material.module";
 import { Observable, switchMap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-detail',
@@ -25,6 +26,7 @@ export class DetailComponent implements OnInit {
   private matSnackBar = inject(MatSnackBar);
   private router = inject(Router);
   private location = inject(Location);
+  private readonly destroyRef = inject(DestroyRef);
 
   public session: Session | undefined;
   public teacher: Teacher | undefined;
@@ -57,12 +59,14 @@ export class DetailComponent implements OnInit {
   public participate(): void {
     this.sessionApiService
       .participate(this.sessionId, this.userId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.fetchSession());
   }
 
   public unParticipate(): void {
     this.sessionApiService
       .unParticipate(this.sessionId, this.userId)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.fetchSession());
   }
 
@@ -76,7 +80,8 @@ export class DetailComponent implements OnInit {
             u => u === this.sessionService.sessionInformation!.id
           )
           return this.teacherService.detail(session.teacher_id.toString());
-        })
+        }),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe((teacher: Teacher) => this.teacher = teacher);
   }
