@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from "@angular/common";
-import { SessionService } from '@service/auth/session.service';
 import { TeacherService } from '@service/teacher/teacher.service';
 import { Session } from '@models/session.interface';
 import { SessionApiService } from '@service/session/session-api.service';
