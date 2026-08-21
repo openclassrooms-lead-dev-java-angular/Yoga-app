@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class TeacherService {
 
-  private readonly pathService = `${environment.api.teachers.baseUrl}/teachers`;
+  private readonly pathService = `${environment.api.teachers.baseUrl}`;
 
   private readonly httpClient = inject(HttpClient);
 

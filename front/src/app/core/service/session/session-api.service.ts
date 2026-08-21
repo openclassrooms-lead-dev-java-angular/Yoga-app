@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 })
 export class SessionApiService {
 
-  private readonly pathService = `${environment.api.sessions.baseUrl}/sessions`;
+  private readonly pathService = `${environment.api.sessions.baseUrl}`;
 
   private readonly httpClient = inject(HttpClient);
 

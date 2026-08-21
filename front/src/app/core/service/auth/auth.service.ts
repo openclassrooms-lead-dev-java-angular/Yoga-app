@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
-  private readonly pathService = `${environment.api.auth.baseUrl}/auth`;
+  private readonly pathService = `${environment.api.auth.baseUrl}`;
 
   private httpClient = inject(HttpClient);
 
