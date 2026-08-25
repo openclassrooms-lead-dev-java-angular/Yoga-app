@@ -2,6 +2,7 @@ import { TestBed } from "@angular/core/testing";
 import { HttpTestingController, provideHttpClientTesting } from "@angular/common/http/testing";
 import { provideHttpClient } from "@angular/common/http";
 import { expect } from '@jest/globals';
+import { environment } from "src/environments/environment";
 
 import { AuthService } from "./auth.service";
 import {
@@ -14,6 +15,7 @@ describe('AuthService', () => {
 
     let service: AuthService;
     let httpCtrl: HttpTestingController;
+    const baseUrl = `${environment.api.auth.baseUrl}`;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -34,26 +36,29 @@ describe('AuthService', () => {
 
     describe('register', () => {
 
-        const registerRequest = TEST_REGISTER_REQUEST;
-
         it('should send the registration request with the correct payload', () => {
-            service.register(registerRequest).subscribe();
-            const req = httpCtrl.expectOne('/api/auth/register');
-            expect(req.request.body).toEqual(registerRequest);
+            let completed = false;
+            service.register(TEST_REGISTER_REQUEST).subscribe({
+                complete: () => completed = true
+            });
+            const req = httpCtrl.expectOne(`${baseUrl}/register`);
+            expect(req.request.body).toEqual(TEST_REGISTER_REQUEST);
+            req.flush(null);
+            expect(completed).toBe(true);
         });
 
         it('should reject registration when email already exists', () => {
-            service.register(registerRequest).subscribe({
+            service.register(TEST_REGISTER_REQUEST).subscribe({
                 next: () => ({ message: 'Registration should have failed' }),
                 error: error => {
                     expect(error.status).toBe(400);
                 }
             });
 
-            const req = httpCtrl.expectOne('/api/auth/register');
+            const req = httpCtrl.expectOne(`${baseUrl}/register`);
 
             expect(req.request.method).toBe('POST');
-            expect(req.request.body).toEqual(registerRequest);
+            expect(req.request.body).toEqual(TEST_REGISTER_REQUEST);
 
             req.flush(
                 { message: 'Email already exists' },
@@ -67,39 +72,43 @@ describe('AuthService', () => {
 
     describe('login', () => {
 
-        const loginRequest = TEST_LOGIN_REQUEST;
-
         it('should login successfully', () => {
-            service.login(loginRequest).subscribe();
-            const req = httpCtrl.expectOne('/api/auth/login');
+            let completed = false;
+            service.login(TEST_LOGIN_REQUEST).subscribe({
+                complete: () => completed = true
+            });
+            const req = httpCtrl.expectOne(`${baseUrl}/login`);
 
             expect(req.request.method).toEqual('POST');
-
-            expect(req.request.body).toEqual(loginRequest);
+            expect(req.request.body).toEqual(TEST_LOGIN_REQUEST);
+            req.flush(null);
+            expect(completed).toBe(true);
         });
 
         it('should return session information when login succeeds', () => {
-            service.login(loginRequest).subscribe(response => {
+            service.login(TEST_LOGIN_REQUEST).subscribe(response => {
                 expect(response).toEqual(TEST_SESSION_INFORMATION);
             });
 
-            const req = httpCtrl.expectOne('/api/auth/login');
+            const req = httpCtrl.expectOne(`${baseUrl}/login`);
 
             expect(req.request.method).toBe('POST');
-            expect(req.request.body).toEqual(loginRequest);
+            expect(req.request.body).toEqual(TEST_LOGIN_REQUEST);
 
             req.flush(TEST_SESSION_INFORMATION);
         });
 
         it('should reject invalid credentials', () => {
-            service.login(loginRequest).subscribe({
-                next: () => { message: 'Login should have failed' },
+            service.login(TEST_LOGIN_REQUEST).subscribe({
+                next: () => {
+                    throw new Error('Expected an error');
+                },
                 error: error => {
                     expect(error.status).toBe(401);
                 }
             });
 
-            const req = httpCtrl.expectOne('/api/auth/login');
+            const req = httpCtrl.expectOne(`${baseUrl}/login`);
 
             req.flush(
                 { message: 'Unauthorized' },
