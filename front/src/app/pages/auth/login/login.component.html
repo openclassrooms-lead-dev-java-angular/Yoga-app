@@ -1,15 +1,17 @@
 <div class="login" fxLayout="row" fxLayoutAlign="center center">
   <mat-card>
-
     <mat-card-header fxLayoutAlign="center center">
       <mat-card-title>Login</mat-card-title>
     </mat-card-header>
 
     <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
       <mat-card-content fxLayout="column">
-
         <mat-form-field fxFlex>
-          <input matInput placeholder="Email" formControlName="email" />
+          <input
+            matInput
+            placeholder="Email"
+            formControlName="email"
+          />
         </mat-form-field>
 
         <mat-form-field fxFlex>
@@ -19,17 +21,17 @@
             placeholder="Password"
             formControlName="password"
           />
-          
+
           <button
             mat-icon-button
             matSuffix
             (click)="hide = !hide"
             [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hide"
+            data-testid="password-visibility-button"
           >
             <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
           </button>
-
         </mat-form-field>
       </mat-card-content>
 
@@ -37,15 +39,15 @@
         mat-raised-button
         color="primary"
         type="submit"
+        data-testid="submit-button"
         [disabled]="form.invalid"
       >
         Submit
       </button>
 
-      @if(onError) {
-        <p class="error">An error occurred</p>
+      @if (onError) {
+        <p class="error" data-testid="form-error">An error occurred</p>
       }
-      
     </form>
   </mat-card>
 </div>
