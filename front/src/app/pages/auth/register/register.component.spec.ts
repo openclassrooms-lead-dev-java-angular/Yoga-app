@@ -51,8 +51,16 @@ describe('RegisterComponent', () => {
           }
         },
       ]
-    })
-      .compileComponents();
+    }).overrideComponent(RegisterComponent, {
+      set: {
+        providers: [
+          {
+            provide: MatSnackBar,
+            useValue: matSnackBarMock,
+          },
+        ],
+      },
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RegisterComponent);
     component = fixture.componentInstance;
