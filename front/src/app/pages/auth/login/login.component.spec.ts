@@ -95,50 +95,55 @@ describe('LoginComponent', () => {
         password: '',
       });
     });
+    describe('email validation', () => {
+      it('should require an email', () => {
+        const emailControl = component.form.controls.email;
+        emailControl.setValue('');
+        emailControl.markAsTouched();
 
-    it('should require an email', () => {
-      const emailControl = component.form.controls.email;
-      emailControl.setValue('');
-      emailControl.markAsTouched();
+        expect(emailControl.hasError('required')).toBe(true);
+        expect(emailControl.valid).toBe(false);
+      });
 
-      expect(emailControl.hasError('required')).toBe(true);
-      expect(emailControl.valid).toBe(false);
+      it('should reject an invalid email', () => {
+        const emailControl = component.form.controls.email;
+        emailControl.setValue('invalid-email');
+        emailControl.markAsTouched();
+
+        expect(emailControl.hasError('email')).toBe(true);
+        expect(emailControl.valid).toBe(false);
+      });
+
+      it('should accept a valid email', () => {
+        const emailControl = component.form.controls.email;
+        emailControl.setValue('john@example.com');
+        emailControl.markAsTouched();
+
+        expect(emailControl.hasError('email')).toBe(false);
+        expect(emailControl.valid).toBe(true);
+      })
     });
 
-    it('should reject an invalid email', () => {
-      const emailControl = component.form.controls.email;
-      emailControl.setValue('invalid-email');
-      emailControl.markAsTouched();
+    describe('password validation', () => {
 
-      expect(emailControl.hasError('email')).toBe(true);
-      expect(emailControl.valid).toBe(false);
-    });
+      it('should require a password', () => {
+        const passwordControl = component.form.controls.password;
+        passwordControl.setValue('');
+        passwordControl.markAsTouched();
 
-    it('should accept a valid email', () => {
-      const emailControl = component.form.controls.email;
-      emailControl.setValue('john@example.com');
-      emailControl.markAsTouched();
+        expect(passwordControl.hasError('required')).toBe(true);
+        expect(passwordControl.valid).toBe(false);
+      });
 
-      expect(emailControl.hasError('email')).toBe(false);
-      expect(emailControl.valid).toBe(true);
-    })
+      it('should reject a password shorter than 3 characters', () => {
+        const passwordControl = component.form.controls.password;
+        passwordControl.setValue('ab');
+        passwordControl.markAsTouched();
 
-    it('should require a password', () => {
-      const passwordControl = component.form.controls.password;
-      passwordControl.setValue('');
-      passwordControl.markAsTouched();
+        expect(passwordControl.hasError('minlength')).toBe(true);
+        expect(passwordControl.valid).toBe(false);
+      });
 
-      expect(passwordControl.hasError('required')).toBe(true);
-      expect(passwordControl.valid).toBe(false);
-    });
-
-    it('should reject a password shorter than 3 characters', () => {
-      const passwordControl = component.form.controls.password;
-      passwordControl.setValue('ab');
-      passwordControl.markAsTouched();
-
-      expect(passwordControl.hasError('minlength')).toBe(true);
-      expect(passwordControl.valid).toBe(false);
     });
 
     it('should be valid with valid credentials', () => {
@@ -188,8 +193,8 @@ describe('LoginComponent', () => {
 
       component.form.setValue(loginRequest);
       component.submit();
+      
       expect(matSnackBarMock.open).toHaveBeenCalled();
-
       expect(authService.login).toHaveBeenCalledWith(loginRequest);
       expect(component.onError).toBe(true);
       expect(sessionService.logIn).not.toHaveBeenCalled();
