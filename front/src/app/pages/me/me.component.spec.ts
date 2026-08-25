@@ -242,9 +242,7 @@ describe('MeComponent', () => {
 
       expect(deleteButton).toBeFalsy();
     });
-
-
-
+    
   });
 
 });

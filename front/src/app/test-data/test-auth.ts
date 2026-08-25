@@ -29,3 +29,13 @@ export const TEST_SESSION_INFORMATION: SessionInformation = {
     lastName: 'Doe',
     admin: false
 };
+
+export const TEST_SESSION_INFORMATION_ADMIN: SessionInformation = {
+    id: 1,
+    token: 'fake-jwt-token',
+    type: 'Bearer',
+    username: 'test@test.com',
+    firstName: 'John',
+    lastName: 'Doe',
+    admin: true
+};
