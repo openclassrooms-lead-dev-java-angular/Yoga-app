@@ -8,6 +8,11 @@ export const TEST_LOGIN_REQUEST: LoginRequest = {
     password: 'password123'
 };
 
+export const TEST_LOGIN_ERROR_REQUEST: LoginRequest = {
+    email: 'test.test',
+    password: 'pa'
+}
+
 export const TEST_REGISTER_REQUEST: RegisterRequest = {
     email: 'test@test.com',
     firstName: 'John',

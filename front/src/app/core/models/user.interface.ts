@@ -4,7 +4,6 @@ export interface User {
   lastName: string;
   firstName: string;
   admin: boolean;
-  password: string;
   createdAt: Date;
   updatedAt?: Date;
 }
