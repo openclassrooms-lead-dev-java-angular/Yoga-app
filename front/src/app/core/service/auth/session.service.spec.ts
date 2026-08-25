@@ -1,4 +1,6 @@
+import { provideHttpClient } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { expect } from '@jest/globals';
 
 import { SessionService } from './session.service';
@@ -6,14 +8,19 @@ import { TEST_SESSION_INFORMATION } from '@app/test-data/test-auth';
 
 describe('SessionService', () => {
   let service: SessionService;
-  const sessionInformation = TEST_SESSION_INFORMATION;
+  let httpCtrl: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [SessionService]
+      providers: [
+        SessionService,
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     });
 
     service = TestBed.inject(SessionService);
+    httpCtrl = TestBed.inject(HttpTestingController);
   });
 
   it('should be created', () => {
@@ -29,14 +36,14 @@ describe('SessionService', () => {
     });
 
     it('should set logged state to true when logging in', () => {
-      service.logIn(sessionInformation);
+      service.logIn(TEST_SESSION_INFORMATION);
       service.$isLogged().subscribe(isLogged => {
         expect(isLogged).toBe(true);
       })
     });
 
     it('should set logged state to false when logging out', () => {
-      service.logIn(sessionInformation);
+      service.logIn(TEST_SESSION_INFORMATION);
       service.logOut();
       service.$isLogged().subscribe(isLogged => {
         expect(isLogged).toBe(false);
@@ -50,7 +57,7 @@ describe('SessionService', () => {
         states.push(isLogged);
       });
 
-      service.logIn(sessionInformation);
+      service.logIn(TEST_SESSION_INFORMATION);
       service.logOut();
 
       expect(states).toEqual([false, true, false]);
@@ -60,16 +67,20 @@ describe('SessionService', () => {
   describe('user information', () => {
 
     it('should store user information when logging in', () => {
-      service.logIn(sessionInformation);
+      service.logIn(TEST_SESSION_INFORMATION);
 
-      expect(service.sessionInformation).toEqual(sessionInformation);
+      expect(service.sessionInformation).toEqual(TEST_SESSION_INFORMATION);
     })
 
     it('should clear user information when logging out', () => {
-      service.logIn(sessionInformation);
+      service.logIn(TEST_SESSION_INFORMATION);
       service.logOut();
 
       expect(service.sessionInformation).toBeUndefined();
     })
   })
+
+  afterEach(() => {
+    httpCtrl.verify();
+  });
 });
