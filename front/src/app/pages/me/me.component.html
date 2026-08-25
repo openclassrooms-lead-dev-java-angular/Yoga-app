@@ -20,7 +20,12 @@
           } @else {
             <div fxLayout="column" class="my2" fxLayoutAlign="center center">
               <p>Delete my account:</p>
-              <button mat-raised-button color="warn" (click)="delete()">
+              <button
+                mat-raised-button
+                color="warn"
+                (click)="delete()"
+                data-testid="delete-user-button"
+              >
                 <mat-icon>delete</mat-icon>
                 <span class="ml1">Detail</span>
               </button>
@@ -34,6 +39,5 @@
         </div>
       }
     </mat-card-content>
-
   </mat-card>
 </div>
