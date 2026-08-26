@@ -8,8 +8,8 @@ describe('NotFoundComponent', () => {
   let fixture: ComponentFixture<NotFoundComponent>;
 
   beforeEach(async () => {
+
     await TestBed.configureTestingModule({
-      declarations: [],
       imports: [
         NotFoundComponent
       ]
@@ -23,5 +23,11 @@ describe('NotFoundComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should display the not found message', () => {
+    const element = fixture.nativeElement;
+
+    expect(element.textContent).toContain('Page not found');
   });
 });
