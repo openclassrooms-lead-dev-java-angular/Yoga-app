@@ -9,7 +9,7 @@ import { expect, jest } from '@jest/globals';
 
 import { AuthService } from '@app/core/service/auth/auth.service';
 import { RegisterComponent } from '@pages/auth/register/register.component';
-import { TEST_REGISTER_REQUEST } from '@app/test-data/test-auth';
+import { TEST_REGISTER_REQUEST } from '@app/test-data/data/test-auth';
 import { By } from '@angular/platform-browser';
 
 describe('RegisterComponent', () => {

@@ -5,14 +5,15 @@ import { expect, jest } from '@jest/globals';
 import { of, throwError } from 'rxjs';
 import { Location } from '@angular/common';
 
-import { TEST_SESSION_INFORMATION_ADMIN } from '@app/test-data/test-auth';
+import { TEST_SESSION_INFORMATION_ADMIN } from '@app/test-data/data/test-auth';
 
 import { SessionService } from '@app/core/service/auth/session.service';
 import { MeComponent } from './me.component';
 import { UserService } from '@app/core/service/user/user.service';
 import { SessionInformation } from '@app/core/models/sessionInformation.interface';
-import { TEST_USER, TEST_USER_ADMIN } from '@app/test-data/test-user';
+import { TEST_USER, TEST_USER_ADMIN } from '@app/test-data/data/test-user';
 import { By } from '@angular/platform-browser';
+import { displayedDate } from '@app/test-data/helper/date.helper';
 
 describe('MeComponent', () => {
   let component: MeComponent;
@@ -199,11 +200,6 @@ describe('MeComponent', () => {
 
       const content = fixture.nativeElement.textContent;
 
-      const displayedDate = (date: Date) => {
-        return new Intl.DateTimeFormat('en-US', {
-          dateStyle: 'long',
-        }).format(date);
-      }
       const createdAt = displayedDate(new Date(TEST_USER_ADMIN.createdAt));
       const updatedAt = displayedDate(new Date(TEST_USER_ADMIN.updatedAt));
 
@@ -242,7 +238,7 @@ describe('MeComponent', () => {
 
       expect(deleteButton).toBeFalsy();
     });
-    
+
   });
 
 });

@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { SessionService } from '@app/core/service/auth/session.service';
 import { AuthService } from '@app/core/service/auth/auth.service';
-import { TEST_SESSION_INFORMATION } from '@app/test-data/test-auth';
+import { TEST_SESSION_INFORMATION } from '@app/test-data/data/test-auth';
 import { LoginRequest } from '@app/core/models/loginRequest.interface';
 import { LoginComponent } from './login.component';
 
@@ -193,7 +193,7 @@ describe('LoginComponent', () => {
 
       component.form.setValue(loginRequest);
       component.submit();
-      
+
       expect(matSnackBarMock.open).toHaveBeenCalled();
       expect(authService.login).toHaveBeenCalledWith(loginRequest);
       expect(component.onError).toBe(true);

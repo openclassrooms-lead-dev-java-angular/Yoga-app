@@ -4,7 +4,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { expect } from '@jest/globals';
 import { environment } from 'src/environments/environment';
 
-import { TEST_SESSION, TEST_SESSIONS } from '@app/test-data/test-session';
+import { TEST_SESSION, TEST_SESSIONS } from '@app/test-data/data/test-session';
 import { SessionApiService } from './session-api.service';
 
 describe('SessionsService', () => {

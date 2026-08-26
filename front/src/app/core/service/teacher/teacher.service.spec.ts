@@ -5,7 +5,7 @@ import { expect } from '@jest/globals';
 import { environment } from 'src/environments/environment';
 
 import { TeacherService } from './teacher.service';
-import { TEST_TEACHER, TEST_TEACHERS } from '@app/test-data/test-teacher';
+import { TEST_TEACHER, TEST_TEACHERS } from '@app/test-data/data/test-teacher';
 
 describe('TeacherService', () => {
   let service: TeacherService;

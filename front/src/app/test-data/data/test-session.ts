@@ -11,6 +11,17 @@ export const TEST_SESSION: Session = {
     updatedAt: new Date('2026-08-10T14:30:00'),
 };
 
+export const TEST_SESSION_NOT_PARTICIPATE: Session = {
+    id: 1,
+    name: 'Session de yoga débutant',
+    description: 'Une session de yoga pour débutants',
+    date: new Date('2026-09-15T18:00:00'),
+    teacher_id: 10,
+    users: [12, 13, 14],
+    createdAt: new Date('2026-08-01T10:00:00'),
+    updatedAt: new Date('2026-08-10T14:30:00'),
+};
+
 export const TEST_SESSIONS: Session[] = [
     TEST_SESSION,
     {

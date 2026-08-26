@@ -9,7 +9,7 @@ import {
     TEST_LOGIN_REQUEST,
     TEST_REGISTER_REQUEST,
     TEST_SESSION_INFORMATION
-} from "@app/test-data/test-auth";
+} from "@app/test-data/data/test-auth";
 
 describe('AuthService', () => {
 

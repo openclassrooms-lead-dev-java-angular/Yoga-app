@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 
 import { UserService } from './user.service';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
-import { TEST_USER } from '@app/test-data/test-user';
+import { TEST_USER } from '@app/test-data/data/test-user';
 
 describe('UserService', () => {
   let service: UserService;
