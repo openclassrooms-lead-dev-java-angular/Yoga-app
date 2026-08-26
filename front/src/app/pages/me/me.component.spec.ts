@@ -13,7 +13,7 @@ import { UserService } from '@app/core/service/user/user.service';
 import { SessionInformation } from '@app/core/models/sessionInformation.interface';
 import { TEST_USER, TEST_USER_ADMIN } from '@app/test-data/data/test-user';
 import { By } from '@angular/platform-browser';
-import { displayedDate } from '@app/test-data/helper/date.helper';
+import { displayedDate } from '@app/test-data/helpers/date.helper';
 
 describe('MeComponent', () => {
   let component: MeComponent;
