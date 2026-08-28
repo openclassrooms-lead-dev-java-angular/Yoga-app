@@ -30,7 +30,11 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Teacher</mat-label>
-            <mat-select ngDefaultControl formControlName="teacher_id">
+            <mat-select
+              ngDefaultControl
+              formControlName="teacher_id"
+              data-testid="sessionTeacherSelect"
+            >
               @for (teacher of teachers$ | async; track teacher.id) {
                 <mat-option [value]="teacher.id">
                   {{ teacher.firstName }} {{ teacher.lastName }}
