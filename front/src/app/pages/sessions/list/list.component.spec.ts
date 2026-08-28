@@ -11,7 +11,6 @@ import { TEST_SESSION_INFORMATION, TEST_SESSION_INFORMATION_ADMIN } from '@app/t
 import { SessionService } from '@app/core/service/auth/session.service';
 import { SessionApiService } from '@app/core/service/session/session-api.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
 
 describe('ListComponent', () => {
@@ -96,7 +95,6 @@ describe('ListComponent', () => {
   it('should display all sessions titles and dates', () => {
     const element = fixture.nativeElement as HTMLElement;
 
-    console.log(element.textContent);
     expect(element.textContent).toContain('Session de yoga débutant');
     expect(element.textContent).toContain('Une session de yoga pour débutants');
     expect(element.textContent).toContain('Session destinée aux pratiquants confirmés');
