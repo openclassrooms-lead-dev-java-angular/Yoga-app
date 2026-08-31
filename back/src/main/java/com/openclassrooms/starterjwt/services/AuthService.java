@@ -43,7 +43,7 @@ public class AuthService {
                         loginRequest.getEmail(),
                         loginRequest.getPassword())
         );
-
+        // todo check naming
         String jwt = jwtUtils.generateToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
