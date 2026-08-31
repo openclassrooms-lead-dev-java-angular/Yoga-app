@@ -20,7 +20,7 @@ public class AuthService {
 
     private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
-    private final JwtService jwtUtils;
+    private final JwtService jwtService;
     private final UserService userService;
 
 
@@ -43,8 +43,8 @@ public class AuthService {
                         loginRequest.getEmail(),
                         loginRequest.getPassword())
         );
-        // todo check naming
-        String jwt = jwtUtils.generateToken(authentication);
+
+        String jwt = jwtService.generateToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         return new JwtResponseDto(
