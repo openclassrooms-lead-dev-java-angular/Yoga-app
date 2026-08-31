@@ -25,14 +25,8 @@ public class JwtService {
     private final JwtEncoder jwtEncoder;
 
     public String generateToken(Authentication authentication) {
-        // todo review
+
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-
-        System.out.println(userPrincipal.getRole());
-
-        System.out.println("admin = " + userPrincipal.getAdmin());
-        System.out.println("role = " + userPrincipal.getRole());
-        System.out.println("authorities = " + userPrincipal.getAuthorities());
 
         Instant now = Instant.now();
 

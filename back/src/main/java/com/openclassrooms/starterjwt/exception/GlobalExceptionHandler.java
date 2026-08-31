@@ -163,12 +163,3 @@ public class GlobalExceptionHandler {
                 .body(error);
     }
 }
-
-// todo remove
-//? AuthenticationException     401     Authentication is required.
-//  ExpiredJwtException         401     Authentication is required.
-//  MalformedJwtException       401     Authentication is required.
-//  UnsupportedJwtException     401     Authentication is required.
-//  SignatureException          401     Authentication is required.
-//  IllegalArgumentException    401     Authentication is required.
-

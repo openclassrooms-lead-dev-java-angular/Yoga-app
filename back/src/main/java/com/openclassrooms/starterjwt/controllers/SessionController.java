@@ -55,7 +55,6 @@ public class SessionController {
     public SessionDto create(
             @Valid @RequestBody SessionDto sessionDto
     ) {
-        System.out.println("post");
         Session session = sessionMapper.toEntity(sessionDto);
         Session created = sessionService.create(session);
 

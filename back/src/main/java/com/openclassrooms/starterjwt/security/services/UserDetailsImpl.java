@@ -42,10 +42,9 @@ public class UserDetailsImpl implements UserDetails {
         Role role = Boolean.TRUE.equals(admin)
                 ? Role.ADMIN
                 : Role.USER;
-        System.out.println(List.of(
-                new SimpleGrantedAuthority("ROLE_" + role.name())
-        ));
+
         this.role = role;
+
         return List.of(
                 new SimpleGrantedAuthority("ROLE_" + role.name())
         );

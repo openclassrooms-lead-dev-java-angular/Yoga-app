@@ -74,7 +74,7 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        System.out.println("security filter");
+
         http
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
@@ -145,12 +145,6 @@ public class WebSecurityConfig {
         );
 
         return encoder;
-    }
-
-    @PostConstruct
-    public void debugSecret() {
-        System.out.println("JWT secret length = " + jwtSecret.length());
-        System.out.println("JWT secret hash = " + jwtSecret.hashCode());
     }
 
     @Bean
