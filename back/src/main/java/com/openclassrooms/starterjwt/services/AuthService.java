@@ -3,6 +3,7 @@ package com.openclassrooms.starterjwt.services;
 import com.openclassrooms.starterjwt.dto.request.LoginRequestDto;
 import com.openclassrooms.starterjwt.dto.request.SignupRequestDto;
 import com.openclassrooms.starterjwt.dto.response.JwtResponseDto;
+import com.openclassrooms.starterjwt.dto.response.MessageResponseDto;
 import com.openclassrooms.starterjwt.exception.ConflictException;
 import com.openclassrooms.starterjwt.mapper.UserMapper;
 import com.openclassrooms.starterjwt.models.User;
@@ -24,7 +25,7 @@ public class AuthService {
     private final UserService userService;
 
 
-    public void registerUser(SignupRequestDto signUpRequestDto) {
+    public MessageResponseDto registerUser(SignupRequestDto signUpRequestDto) {
         if (userService.existsByEmail(signUpRequestDto.getEmail())) {
             throw new ConflictException("Error: Email is already taken!");
         }
@@ -34,6 +35,8 @@ public class AuthService {
         user.setAdmin(false);
 
         this.userService.save(user);
+
+        return new MessageResponseDto("User registered successfully!");
     }
 
     public JwtResponseDto authenticateUser(LoginRequestDto loginRequest) {

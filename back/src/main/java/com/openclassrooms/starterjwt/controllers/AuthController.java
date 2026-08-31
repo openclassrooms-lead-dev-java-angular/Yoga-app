@@ -7,7 +7,6 @@ import com.openclassrooms.starterjwt.dto.response.MessageResponseDto;
 import com.openclassrooms.starterjwt.services.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,6 @@ public class AuthController {
 
     private final AuthService authService;
 
-
     @PostMapping("/login")
     public JwtResponseDto authenticateUser(
             @Valid @RequestBody LoginRequestDto loginRequest
@@ -29,11 +27,9 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(
+    public MessageResponseDto registerUser(
             @Valid @RequestBody SignupRequestDto signUpRequestDto
     ) {
-        authService.registerUser(signUpRequestDto);
-
-        return ResponseEntity.ok(new MessageResponseDto("User registered successfully!"));
+        return authService.registerUser(signUpRequestDto);
     }
 }
