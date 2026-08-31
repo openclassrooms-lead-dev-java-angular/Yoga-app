@@ -4,16 +4,16 @@ export const environment = {
   production: false,
   api: {
     auth: {
-      baseUrl: `${baseUrl}/v1/auth`
+      baseUrl: `${baseUrl}/auth`
     },
     sessions: {
-      baseUrl: `${baseUrl}/v1/sessions`
+      baseUrl: `${baseUrl}/sessions`
     },
     teachers: {
-      baseUrl: `${baseUrl}/v1/teachers`
+      baseUrl: `${baseUrl}/teachers`
     },
     users: {
-      baseUrl: `${baseUrl}/v1/users`
+      baseUrl: `${baseUrl}/users`
     }
   }
 };
