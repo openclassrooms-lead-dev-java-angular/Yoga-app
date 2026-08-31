@@ -9,6 +9,7 @@ import com.openclassrooms.starterjwt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +23,7 @@ public class SessionService {
     private final UserRepository userRepository;
 
 
+    @Transactional()
     public Session create(Session session) {
         Session createdSession = sessionRepository.save(session);
 
@@ -30,6 +32,7 @@ public class SessionService {
         return createdSession;
     }
 
+    @Transactional()
     public void delete(Long id) {
         Session session = this.sessionRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
@@ -38,17 +41,22 @@ public class SessionService {
         log.info("Session deleted with id {}", id);
     }
 
+    @Transactional(readOnly = true)
     public List<Session> findAll() {
         return this.sessionRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Session getById(Long id) {
         return this.sessionRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
     }
 
+    @Transactional()
     public Session update(Long id, Session session) {
+//        sessionMapper.toEntity(sessionDto)
+
         Session currentSession = sessionRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
@@ -65,8 +73,9 @@ public class SessionService {
         return updatedSession;
     }
 
+    @Transactional()
     public void participate(Long id, Long userId) {
-
+        // exist by id
         Session session = this.sessionRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
@@ -84,7 +93,10 @@ public class SessionService {
         this.sessionRepository.save(session);
     }
 
+    @Transactional()
     public void noLongerParticipate(Long id, Long userId) {
+        // exist by ...
+        // user in session, user exists- jpa
         Session session = this.sessionRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
@@ -99,6 +111,7 @@ public class SessionService {
     }
 
     private Boolean alreadyParticipate(Session session, Long userId) {
+        // check with srping data jpa.
         return session
                 .getUsers()
                 .stream()
