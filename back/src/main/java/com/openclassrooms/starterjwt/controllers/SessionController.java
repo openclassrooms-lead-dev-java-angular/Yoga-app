@@ -26,7 +26,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/session")
+@RequestMapping("/api/sessions")
 @Validated
 public class SessionController {
 
@@ -43,7 +43,7 @@ public class SessionController {
         return this.sessionMapper.toDto(session);
     }
 
-    @GetMapping()
+    @GetMapping("")
     public List<SessionDto> findAll() {
         List<Session> sessions = this.sessionService.findAll();
 
@@ -71,18 +71,13 @@ public class SessionController {
         Session session = sessionService.update(id, sessionMapper.toEntity(sessionDto));
 
         return sessionMapper.toDto(session);
-
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> delete(
+    public void delete(
             @PathVariable("id") Long id
     ) {
         this.sessionService.delete(id);
-
-        return ResponseEntity
-                .ok()
-                .build();
     }
 
     @PostMapping("{id}/participate/{userId}")

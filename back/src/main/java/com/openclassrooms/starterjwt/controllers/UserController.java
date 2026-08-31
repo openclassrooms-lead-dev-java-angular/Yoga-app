@@ -1,23 +1,16 @@
 package com.openclassrooms.starterjwt.controllers;
 
 import com.openclassrooms.starterjwt.dto.UserDto;
-import com.openclassrooms.starterjwt.mapper.UserMapper;
-import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
 
-    private final UserMapper userMapper;
     private final UserService userService;
 
 
@@ -25,17 +18,14 @@ public class UserController {
     public UserDto findById(
             @PathVariable("id") Long id
     ) {
-        User user = this.userService.findById(id);
-        return userMapper.toDto(user);
+        return this.userService.loadById(id);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> save(
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(
             @PathVariable("id") Long id
     ) {
         userService.delete(id);
-        return ResponseEntity
-                .ok()
-                .build();
     }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/teacher")
+@RequestMapping("/api/teachers")
 public class TeacherController {
 
     private final TeacherMapper teacherMapper;
@@ -30,7 +30,7 @@ public class TeacherController {
         return  teacherMapper.toDto(teacher);
     }
 
-    @GetMapping()
+    @GetMapping("")
     public List<TeacherDto> findAll() {
         List<Teacher> teachers = this.teacherService.findAll();
         return this.teacherMapper.toDto(teachers);
