@@ -159,7 +159,7 @@ public class GlobalExceptionHandler {
      *
      * @param status http status
      * @param message string
-     * @return ResponseEntity<ErrorResponseDto>
+     * @return ErrorResponseDto
      */
     private ErrorResponseDto buildResponse(HttpStatus status,  String message) {
         return new ErrorResponseDto(
