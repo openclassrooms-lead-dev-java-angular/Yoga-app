@@ -1,7 +1,9 @@
 package com.openclassrooms.starterjwt.services;
 
+import com.openclassrooms.starterjwt.dto.SessionDto;
 import com.openclassrooms.starterjwt.exception.BadRequestException;
 import com.openclassrooms.starterjwt.exception.NotFoundException;
+import com.openclassrooms.starterjwt.mapper.SessionMapper;
 import com.openclassrooms.starterjwt.models.Session;
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.repository.SessionRepository;
@@ -21,15 +23,18 @@ public class SessionService {
 
     private final SessionRepository sessionRepository;
     private final UserRepository userRepository;
+    private final SessionMapper sessionMapper;
 
 
     @Transactional()
-    public Session create(Session session) {
+    public SessionDto create(SessionDto sessionDto) {
+        Session session = sessionMapper.toEntity(sessionDto);
+
         Session createdSession = sessionRepository.save(session);
 
         log.info("Session created with id {}", session.getId());
 
-        return createdSession;
+        return sessionMapper.toDto(createdSession);
     }
 
     @Transactional()
@@ -42,35 +47,41 @@ public class SessionService {
     }
 
     @Transactional(readOnly = true)
-    public List<Session> findAll() {
-        return this.sessionRepository.findAll();
+    public List<SessionDto> findAll() {
+
+        List<Session> sessions =  this.sessionRepository.findAll();
+
+        return this.sessionMapper.toDto(sessions);
     }
 
     @Transactional(readOnly = true)
-    public Session getById(Long id) {
-        return this.sessionRepository
+    public SessionDto getById(Long id) {
+        Session session =  this.sessionRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
+
+        return this.sessionMapper.toDto(session);
     }
 
     @Transactional()
-    public Session update(Long id, Session session) {
-//        sessionMapper.toEntity(sessionDto)
+    public SessionDto update(Long id, SessionDto sessionDto) {
+
+        if (!sessionRepository.existsById(id)) {
+            throw new NotFoundException();
+        }
+
+        sessionDto.setId(id);
 
         Session currentSession = sessionRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
 
-        currentSession.setName(session.getName());
-        currentSession.setDate(session.getDate());
-        currentSession.setDescription(session.getDescription());
-        currentSession.setUsers(session.getUsers());
-        currentSession.setTeacher(session.getTeacher());
+        sessionMapper.updateEntity(sessionDto, currentSession);
 
         Session updatedSession = sessionRepository.save(currentSession);
 
-        log.info("Session updated with id {}", id);
-        return updatedSession;
+        log.info("Session updated with id ");
+        return sessionMapper.toDto(updatedSession);
     }
 
     @Transactional()

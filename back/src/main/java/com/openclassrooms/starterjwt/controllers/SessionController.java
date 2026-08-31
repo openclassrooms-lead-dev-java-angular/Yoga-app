@@ -30,24 +30,18 @@ import java.util.List;
 @Validated
 public class SessionController {
 
-    private final SessionMapper sessionMapper;
     private final SessionService sessionService;
-
 
     @GetMapping("/{id}")
     public SessionDto findById(
             @PathVariable("id") Long id
     ) {
-        Session session = sessionService.getById(id);
-
-        return this.sessionMapper.toDto(session);
+        return sessionService.getById(id);
     }
 
     @GetMapping("")
     public List<SessionDto> findAll() {
-        List<Session> sessions = this.sessionService.findAll();
-
-        return this.sessionMapper.toDto(sessions);
+        return this.sessionService.findAll();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -55,10 +49,7 @@ public class SessionController {
     public SessionDto create(
             @Valid @RequestBody SessionDto sessionDto
     ) {
-        Session session = sessionMapper.toEntity(sessionDto);
-        Session created = sessionService.create(session);
-
-        return sessionMapper.toDto(created);
+        return sessionService.create(sessionDto);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -67,9 +58,7 @@ public class SessionController {
             @PathVariable("id") Long id,
             @Valid @RequestBody SessionDto sessionDto
     ) {
-        Session session = sessionService.update(id, sessionMapper.toEntity(sessionDto));
-
-        return sessionMapper.toDto(session);
+        return sessionService.update(id, sessionDto);
     }
 
     @DeleteMapping("{id}")

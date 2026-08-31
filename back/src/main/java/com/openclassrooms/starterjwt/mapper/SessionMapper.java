@@ -2,18 +2,15 @@ package com.openclassrooms.starterjwt.mapper;
 
 import com.openclassrooms.starterjwt.dto.SessionDto;
 import com.openclassrooms.starterjwt.models.Session;
+import com.openclassrooms.starterjwt.models.Teacher;
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.services.TeacherService;
 import com.openclassrooms.starterjwt.services.UserService;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -39,4 +36,12 @@ public abstract class SessionMapper implements EntityMapper<SessionDto, Session>
             @Mapping(target = "users", expression = "java(Optional.ofNullable(session.getUsers()).orElseGet(Collections::emptyList).stream().map(u -> u.getId()).collect(Collectors.toList()))"),
     })
     public abstract SessionDto toDto(Session session);
+
+
+    @Mapping(target = "teacher", ignore = true)
+    @Mapping(target = "users", ignore = true)
+    public abstract void updateEntity(
+            SessionDto dto,
+            @MappingTarget Session entity
+    );
 }
