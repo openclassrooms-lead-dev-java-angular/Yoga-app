@@ -6,10 +6,10 @@ import jakarta.servlet.ServletException;
 import lombok.extern.log4j.Log4j2;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.IOException;
@@ -33,7 +33,8 @@ public class GlobalExceptionHandler {
      * @return ErrorResponse dto
      */
     @ExceptionHandler(value = BadRequestException.class)
-    public ResponseEntity<ErrorResponseDto> handleBadRequestException(BadRequestException e) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDto handleBadRequestException(BadRequestException e) {
         log.warn(e);
         return buildResponse(HttpStatus.BAD_REQUEST, BadRequestMessage);
     }
@@ -42,7 +43,8 @@ public class GlobalExceptionHandler {
      * MethodArgumentNotValidException
      */
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(NumberFormatException e) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDto handleMethodArgumentNotValidException(NumberFormatException e) {
         log.warn(e);
         return buildResponse(HttpStatus.BAD_REQUEST, BadRequestMessage);
     }
@@ -51,7 +53,8 @@ public class GlobalExceptionHandler {
      * ConstraintViolationException
      */
     @ExceptionHandler(value = NumberFormatException.class)
-    public ResponseEntity<ErrorResponseDto> handleConstraintViolationException(NumberFormatException e) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDto handleConstraintViolationException(NumberFormatException e) {
         log.warn(e);
         return buildResponse(HttpStatus.BAD_REQUEST, BadRequestMessage);
     }
@@ -65,7 +68,8 @@ public class GlobalExceptionHandler {
      * @return ErrorResponseDto
      */
     @ExceptionHandler(value = ConflictException.class)
-    public ResponseEntity<ErrorResponseDto> handleConflictException(ConflictException e) {
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponseDto handleConflictException(ConflictException e) {
         log.warn(e);
         return buildResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
@@ -79,7 +83,8 @@ public class GlobalExceptionHandler {
      * @return ErrorResponse dto
      */
     @ExceptionHandler(value = NotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleNotFoundException(NotFoundException e) {
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponseDto handleNotFoundException(NotFoundException e) {
         log.warn(e);
         return buildResponse(HttpStatus.NOT_FOUND, NotFoundMessage);
     }
@@ -93,13 +98,15 @@ public class GlobalExceptionHandler {
      * @return ErrorResponseDto
      */
     @ExceptionHandler(value = UsernameNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleUsernameNotFoundException(UsernameNotFoundException e) {
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponseDto handleUsernameNotFoundException(UsernameNotFoundException e) {
         log.warn(e);
         return buildResponse(HttpStatus.UNAUTHORIZED, UnauthorizedMessage);
     }
 
     @ExceptionHandler(value = UnauthorizedException.class)
-    public ResponseEntity<ErrorResponseDto> handleUnauthorizedException(UnauthorizedException e) {
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponseDto handleUnauthorizedException(UnauthorizedException e) {
         log.warn(e);
         return buildResponse(HttpStatus.UNAUTHORIZED, UnauthorizedMessage);
     }
@@ -113,7 +120,8 @@ public class GlobalExceptionHandler {
      * @return ErrorResponse dto
      */
     @ExceptionHandler(value = IOException.class)
-    public ResponseEntity<ErrorResponseDto> handleIOException(IOException e) {
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponseDto handleIOException(IOException e) {
         log.error(e);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, InternalServerErrorMessage);
     }
@@ -125,7 +133,8 @@ public class GlobalExceptionHandler {
      * @return ErrorResponseDto
      */
     @ExceptionHandler(value = ServletException.class)
-    public ResponseEntity<ErrorResponseDto> handleServletException(ServletException e) {
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponseDto handleServletException(ServletException e) {
         log.error(e);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, InternalServerErrorMessage);
     }
@@ -137,7 +146,8 @@ public class GlobalExceptionHandler {
      * @return ErrorResponseDto
      */
     @ExceptionHandler(value = Exception.class)
-    public ResponseEntity<ErrorResponseDto> handleException(Exception e) {
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorResponseDto handleException(Exception e) {
         log.error(e);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, InternalServerErrorMessage);
     }
@@ -151,15 +161,11 @@ public class GlobalExceptionHandler {
      * @param message string
      * @return ResponseEntity<ErrorResponseDto>
      */
-    private ResponseEntity<ErrorResponseDto> buildResponse(HttpStatus status,  String message) {
-        ErrorResponseDto error = new ErrorResponseDto(
+    private ErrorResponseDto buildResponse(HttpStatus status,  String message) {
+        return new ErrorResponseDto(
                 status,
                 message,
                 Instant.now().toString()
         );
-
-        return ResponseEntity
-                .status(status)
-                .body(error);
     }
 }
