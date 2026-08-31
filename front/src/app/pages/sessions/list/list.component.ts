@@ -1,7 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { Observable } from 'rxjs';
+
 import { SessionInformation } from '@models/sessionInformation.interface';
 import { Session } from '@models/session.interface';
 import { SessionService } from '@service/auth/session.service';
@@ -10,7 +12,7 @@ import { MaterialModule } from "../../../shared/material.module";
 
 @Component({
   selector: 'app-list',
-  imports: [CommonModule, MaterialModule, RouterModule],
+  imports: [CommonModule, MaterialModule, RouterModule, FlexLayoutModule],
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })

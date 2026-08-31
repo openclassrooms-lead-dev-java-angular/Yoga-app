@@ -2,15 +2,17 @@ import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CommonModule, Location } from "@angular/common";
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 import { User } from '@models/user.interface';
 import { SessionService } from '@service/auth/session.service';
 import { UserService } from '@service/user/user.service';
 import { MaterialModule } from "../../shared/material.module";
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-me',
-  imports: [CommonModule, MaterialModule],
+  imports: [CommonModule, MaterialModule, FlexLayoutModule],
   templateUrl: './me.component.html',
   styleUrls: ['./me.component.scss']
 })
@@ -31,7 +33,7 @@ export class MeComponent implements OnInit {
       .subscribe({
         next: (user: User) => this.user = user,
         error: () => this.matSnackBar.open('Unable to fetch user', 'Close', { duration: 3000 }),
-    });
+      });
   }
 
   public back(): void {

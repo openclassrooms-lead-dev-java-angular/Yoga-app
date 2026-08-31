@@ -2,15 +2,17 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from "@angular/common";
-import { AuthService } from '@service/auth/auth.service';
-import { RegisterRequest } from '@models/registerRequest.interface';
-import { MaterialModule } from "../../../shared/material.module";
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
+import { RegisterRequest } from '@models/registerRequest.interface';
+import { AuthService } from '@service/auth/auth.service';
+import { MaterialModule } from "../../../shared/material.module";
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, MaterialModule],
+  imports: [CommonModule, MaterialModule, FlexLayoutModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })

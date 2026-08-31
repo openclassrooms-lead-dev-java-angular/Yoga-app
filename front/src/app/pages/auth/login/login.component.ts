@@ -3,16 +3,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 import { SessionInformation } from '@models/sessionInformation.interface';
 import { LoginRequest } from '@models/loginRequest.interface';
 import { SessionService } from '@service/auth/session.service';
 import { AuthService } from '@service/auth/auth.service';
 import { MaterialModule } from "../../../shared/material.module";
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, MaterialModule],
+  imports: [CommonModule, MaterialModule, FlexLayoutModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })

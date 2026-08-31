@@ -2,18 +2,20 @@ import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, Location } from "@angular/common";
-import { Teacher } from '@models/teacher.interface';
-import { SessionService } from '@service/auth/session.service';
-import { TeacherService } from '@service/teacher/teacher.service';
-import { Session } from '@models/session.interface';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { Observable, switchMap } from 'rxjs';
+
 import { SessionApiService } from '@service/session/session-api.service';
 import { MaterialModule } from "../../../shared/material.module";
-import { Observable, switchMap } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Session } from '@models/session.interface';
+import { SessionService } from '@service/auth/session.service';
+import { TeacherService } from '@service/teacher/teacher.service';
+import { Teacher } from '@models/teacher.interface';
 
 @Component({
   selector: 'app-detail',
-  imports: [CommonModule, MaterialModule],
+  imports: [CommonModule, MaterialModule, FlexLayoutModule],
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss']
 })
