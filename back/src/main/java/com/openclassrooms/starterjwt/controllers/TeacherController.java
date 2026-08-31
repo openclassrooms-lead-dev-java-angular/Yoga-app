@@ -17,7 +17,6 @@ import java.util.List;
 @RequestMapping("/api/teachers")
 public class TeacherController {
 
-    private final TeacherMapper teacherMapper;
     private final TeacherService teacherService;
 
 
@@ -25,14 +24,11 @@ public class TeacherController {
     public TeacherDto findById(
             @PathVariable("id") Long id
     ) {
-        Teacher teacher = this.teacherService.findById(id);
-
-        return  teacherMapper.toDto(teacher);
+        return this.teacherService.findById(id);
     }
 
     @GetMapping("")
     public List<TeacherDto> findAll() {
-        List<Teacher> teachers = this.teacherService.findAll();
-        return this.teacherMapper.toDto(teachers);
+        return this.teacherService.findAll();
     }
 }

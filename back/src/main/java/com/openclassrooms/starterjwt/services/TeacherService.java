@@ -1,6 +1,8 @@
 package com.openclassrooms.starterjwt.services;
 
+import com.openclassrooms.starterjwt.dto.TeacherDto;
 import com.openclassrooms.starterjwt.exception.NotFoundException;
+import com.openclassrooms.starterjwt.mapper.TeacherMapper;
 import com.openclassrooms.starterjwt.models.Teacher;
 import com.openclassrooms.starterjwt.repository.TeacherRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,16 +16,21 @@ import java.util.List;
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
+    private final TeacherMapper teacherMapper;
 
     @Transactional(readOnly = true)
-    public List<Teacher> findAll() {
-        return this.teacherRepository.findAll();
+    public List<TeacherDto> findAll() {
+        List<Teacher> teachers = teacherRepository.findAll();
+
+        return teacherMapper.toDto(teachers);
     }
 
     @Transactional(readOnly = true)
-    public Teacher findById(Long id) {
-        return this.teacherRepository
+    public TeacherDto findById(Long id) {
+        Teacher teacher =  this.teacherRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
+
+        return teacherMapper.toDto(teacher);
     }
 }
