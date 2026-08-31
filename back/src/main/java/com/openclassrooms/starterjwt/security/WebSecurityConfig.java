@@ -159,16 +159,15 @@ public class WebSecurityConfig {
                 new JwtAuthenticationConverter();
 
         converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+            String role = jwt.getClaimAsString("role");
 
-            Boolean admin = jwt.getClaimAsBoolean("admin");
-
-            if (Boolean.TRUE.equals(admin)) {
-                return List.of(
-                        new SimpleGrantedAuthority("ROLE_ADMIN")
-                );
+            if (role == null) {
+                return List.of();
             }
 
-            return List.of();
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_" + role)
+            );
         });
 
         return converter;

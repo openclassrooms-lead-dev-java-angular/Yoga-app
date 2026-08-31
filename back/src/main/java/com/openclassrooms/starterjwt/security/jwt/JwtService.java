@@ -28,14 +28,18 @@ public class JwtService {
         // todo review
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
+        System.out.println(userPrincipal.getRole());
+
+        System.out.println("admin = " + userPrincipal.getAdmin());
+        System.out.println("role = " + userPrincipal.getRole());
+        System.out.println("authorities = " + userPrincipal.getAuthorities());
+
         Instant now = Instant.now();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .subject(userPrincipal.getUsername())
                 .issuedAt(now)
-                .claim("role",  Boolean.TRUE.equals(userPrincipal.getAdmin())
-                        ? Role.ADMIN.name()
-                        : Role.USER.name())
+                .claim("role",  userPrincipal.getRole())
                 .expiresAt(now.plusMillis(jwtExpirationMs))
                 .build();
 
