@@ -1,6 +1,7 @@
 package com.openclassrooms.starterjwt.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.openclassrooms.starterjwt.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,15 +32,20 @@ public class UserDetailsImpl implements UserDetails {
 
     private Boolean admin;
 
+    private Role role;
+
     @JsonIgnore
     private String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (Boolean.TRUE.equals(admin)) {
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        }
-        return List.of();
+        Role role = Boolean.TRUE.equals(admin)
+                ? Role.ADMIN
+                : Role.USER;
+
+        return List.of(
+                new SimpleGrantedAuthority("ROLE_" + role.name())
+        );
     }
 
     @Override

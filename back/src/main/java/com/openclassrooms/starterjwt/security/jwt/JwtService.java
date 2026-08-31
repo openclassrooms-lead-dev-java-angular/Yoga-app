@@ -1,5 +1,6 @@
 package com.openclassrooms.starterjwt.security.jwt;
 
+import com.openclassrooms.starterjwt.enums.Role;
 import com.openclassrooms.starterjwt.security.services.UserDetailsImpl;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 
@@ -24,7 +25,7 @@ public class JwtService {
     private final JwtEncoder jwtEncoder;
 
     public String generateToken(Authentication authentication) {
-
+        // todo review
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
         Instant now = Instant.now();
@@ -32,7 +33,9 @@ public class JwtService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .subject(userPrincipal.getUsername())
                 .issuedAt(now)
-                .claim("admin", userPrincipal.getAdmin())
+                .claim("role",  Boolean.TRUE.equals(userPrincipal.getAdmin())
+                        ? Role.ADMIN.name()
+                        : Role.USER.name())
                 .expiresAt(now.plusMillis(jwtExpirationMs))
                 .build();
 
