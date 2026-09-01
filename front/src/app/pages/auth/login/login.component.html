@@ -11,6 +11,7 @@
             matInput
             placeholder="Email"
             formControlName="email"
+            data-cy="email"
           />
         </mat-form-field>
 
@@ -20,6 +21,7 @@
             [type]="hide ? 'password' : 'text'"
             placeholder="Password"
             formControlName="password"
+            data-cy="password"
           />
 
           <button
@@ -29,6 +31,7 @@
             [attr.aria-label]="'Hide password'"
             [attr.aria-pressed]="hide"
             data-testid="password-visibility-button"
+            data-cy="password-visibility-button"
           >
             <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
           </button>
@@ -41,12 +44,15 @@
         type="submit"
         data-testid="submit-button"
         [disabled]="form.invalid"
+        data-cy="login-btn"
       >
         Submit
       </button>
 
       @if (onError) {
-        <p class="error" data-testid="form-error">An error occurred</p>
+        <p class="error" data-testid="form-error" data-cy="form-error">
+          An error occurred
+        </p>
       }
     </form>
   </mat-card>
