@@ -1,13 +1,18 @@
 <div class="m3">
   @if (session) {
-    <mat-card data-testid="sessionCard">
+    <mat-card data-testid="sessionCard" data-cy="session-card">
       <mat-card-title>
         <div fxLayout="row" fxLayoutAlign="space-between center">
           <div fxLayout="row" fxLayoutAlign="start center">
-            <button mat-icon-button (click)="back()" data-testid="back-button">
+            <button
+              mat-icon-button
+              (click)="back()"
+              data-testid="back-button"
+              data-cy="back-button"
+            >
               <mat-icon>arrow_back</mat-icon>
             </button>
-            <h1>{{ session.name | titlecase }}</h1>
+            <h1 data-cy="session-name">{{ session.name | titlecase }}</h1>
           </div>
           <div>
             @if (isAdmin) {
@@ -16,6 +21,7 @@
                 color="warn"
                 (click)="delete()"
                 data-testid="delete-session-button"
+                data-cy="delete-session-button"
               >
                 <mat-icon>delete</mat-icon>
                 <span class="ml1">Delete</span>
@@ -28,6 +34,7 @@
                     color="primary"
                     (click)="participate()"
                     data-testid="participate-button"
+                    data-cy="participate-button"
                   >
                     <mat-icon>person_add</mat-icon>
                     <span class="ml1">Participate</span>
@@ -38,6 +45,7 @@
                     color="warn"
                     (click)="unParticipate()"
                     data-testid="unparticipate-button"
+                    data-cy="unparticipate-button"
                   >
                     <mat-icon>person_remove</mat-icon>
                     <span class="ml1">Do not participate</span>
@@ -53,7 +61,11 @@
         <mat-card-subtitle>
           <div fxLayoutAlign="start center" class="ml3">
             <mat-icon> people </mat-icon>
-            <span class="ml1" data-testid="sessionTeacherName">
+            <span
+              class="ml1"
+              data-testid="sessionTeacherName"
+              data-cy="session-teacher-name"
+            >
               {{ teacher.firstName }} {{ teacher.lastName | uppercase }}</span
             >
           </div>
@@ -68,13 +80,17 @@
         <div class="my2" fxLayout="row" fxLayoutAlign="space-between center">
           <div fxLayoutAlign="start center">
             <mat-icon> group </mat-icon>
-            <span data-testid="sessionAttendees" class="ml1">
+            <span
+              data-testid="sessionAttendees"
+              data-cy="session-attendees"
+              class="ml1"
+            >
               {{ session.users.length }} attendees
             </span>
           </div>
           <div fxLayoutAlign="start center">
             <mat-icon> calendar_month </mat-icon>
-            <span class="ml1" data-testid="sessionDate">
+            <span class="ml1" data-testid="sessionDate" data-cy="session-date">
               {{ session.date | date: "longDate" }}
             </span>
           </div>
