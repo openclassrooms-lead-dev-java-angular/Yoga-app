@@ -22,7 +22,7 @@ public class TeacherController {
     public TeacherDto findById(
             @PathVariable("id") Long id
     ) {
-        return this.teacherService.findById(id);
+        return this.teacherService.findTeacherById(id);
     }
 
     @GetMapping("")

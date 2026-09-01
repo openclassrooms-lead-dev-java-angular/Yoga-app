@@ -26,11 +26,18 @@ public class TeacherService {
     }
 
     @Transactional(readOnly = true)
-    public TeacherDto findById(Long id) {
+    public TeacherDto findTeacherById(Long id) {
         Teacher teacher =  this.teacherRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
 
         return teacherMapper.toDto(teacher);
+    }
+
+    @Transactional(readOnly = true)
+    public Teacher findById(Long id) {
+        return  this.teacherRepository
+                .findById(id)
+                .orElseThrow(NotFoundException::new);
     }
 }
