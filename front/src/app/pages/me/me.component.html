@@ -13,7 +13,7 @@
       @if (user) {
         <div fxLayout="column" fxLayoutAlign="start center">
           <p>Name: {{ user.firstName }} {{ user.lastName | uppercase }}</p>
-          <p>Email: {{ user.email }}</p>
+          <p data-cy="email">Email: {{ user.email }}</p>
 
           @if (user.admin) {
             <p class="my2">You are admin</p>
@@ -25,6 +25,7 @@
                 color="warn"
                 (click)="delete()"
                 data-testid="delete-user-button"
+                data-cy="delete-user-button"
               >
                 <mat-icon>delete</mat-icon>
                 <span class="ml1">Detail</span>
