@@ -2,7 +2,7 @@
   <mat-card>
     <mat-card-title>
       <div fxLayout="row" fxLayoutAlign="start center">
-        <button mat-icon-button routerLink="/sessions">
+        <button mat-icon-button routerLink="/sessions" data-cy="back-button">
           <mat-icon>arrow_back</mat-icon>
         </button>
 
@@ -20,12 +20,12 @@
         >
           <mat-form-field appearance="outline" class="" fxFlex>
             <mat-label>Name</mat-label>
-            <input matInput formControlName="name" />
+            <input matInput formControlName="name" data-cy="input-name" />
           </mat-form-field>
 
           <mat-form-field appearance="outline" fxFlex>
             <mat-label>Date</mat-label>
-            <input matInput type="date" formControlName="date" />
+            <input matInput type="date" formControlName="date" data-cy="input-date" />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -34,6 +34,7 @@
               ngDefaultControl
               formControlName="teacher_id"
               data-testid="sessionTeacherSelect"
+              data-cy="session-teacher-select"
             >
               @for (teacher of teachers$ | async; track teacher.id) {
                 <mat-option [value]="teacher.id">
@@ -49,6 +50,7 @@
               matInput
               rows="8"
               formControlName="description"
+              data-cy="input-description"
             ></textarea>
           </mat-form-field>
 

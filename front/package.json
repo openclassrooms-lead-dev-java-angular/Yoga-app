@@ -4,13 +4,13 @@
   "scripts": {
     "start": "ng serve",
     "test": "jest",
-    "test:watch": "jest --watch",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "e2e:ci": "ng run yoga:e2e-ci",
     "e2e:coverage": "npx nyc report --reporter=lcov --reporter=text-summary",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "cypress:coverage": "npm run e2e:ci --coverage"
   },
   "private": true,
   "dependencies": {
