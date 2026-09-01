@@ -25,5 +25,8 @@ Object.defineProperty(window, 'sessionStorage', {
 });
 
 Object.defineProperty(window, 'getComputedStyle', {
-  value: () => ['-webkit-appearance'],
+  configurable: true,
+  value: () => ({
+    getPropertyValue: () => '',
+  }),
 });
