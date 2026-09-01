@@ -292,7 +292,8 @@ describe('RegisterComponent', () => {
         const errorElt = fixture.debugElement.query(By.css('[data-testid="display-error"]'));
 
         expect(errorElt).toBeTruthy();
-        expect(errorElt.nativeElement.textContent).toBe('An error occurred');
+        expect(errorElt.nativeElement.textContent.trim())
+          .toBe('An error occurred');
       });
 
     });

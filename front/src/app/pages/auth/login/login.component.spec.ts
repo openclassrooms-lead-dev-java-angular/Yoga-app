@@ -254,7 +254,7 @@ describe('LoginComponent', () => {
       const errorElt = fixture.debugElement.query(By.css('[data-testid="form-error"]'));
 
       expect(errorElt).toBeTruthy();
-      expect(errorElt.nativeElement.textContent).toBe('An error occurred');
+      expect(errorElt.nativeElement.textContent.trim()).toBe('An error occurred');
       expect(matSnackBarMock.open).toHaveBeenCalledWith(
         'Unable to login',
         'Close',
