@@ -41,3 +41,49 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+import { SessionInformation } from '@models/sessionInformation.interface';
+
+declare global {
+    namespace Cypress {
+        interface Chainable {
+            getByDataCy(
+                selector: string,
+                options?: Partial<Cypress.Loggable & Cypress.Timeoutable>
+            ): Chainable<JQuery<HTMLElement>>;
+            login(sessionInformation: SessionInformation): Chainable<void>;
+        }
+    }
+}
+
+Cypress.Commands.add('getByDataCy', (selector: string, ...args: any[]) => {
+    return cy.get(`[data-cy="${selector}"]`, ...args)
+});
+
+Cypress.Commands.add(
+    'login',
+    (sessionInformation: SessionInformation) => {
+        cy.intercept('POST', '**/api/auth/login', {
+            statusCode: 200,
+            body: sessionInformation,
+        }).as('login');
+
+        cy.visit('/login');
+
+        cy.getByDataCy('email')
+            .type(sessionInformation.username);
+
+        cy.getByDataCy('password')
+            .type('password');
+
+        cy.getByDataCy('login-btn')
+            .click();
+
+        cy.wait('@login');
+
+        cy.url()
+            .should('include', '/sessions');
+    }
+);
+
+export { };
