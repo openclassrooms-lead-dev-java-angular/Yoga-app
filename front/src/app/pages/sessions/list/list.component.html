@@ -12,7 +12,7 @@
 
     <div class="items mt2" fxLayout="row wrap" fxLayout.lt-md="column">
       @for (session of sessions$ | async; track session.id) {
-        <mat-card class="item" fxFlex>
+        <mat-card class="item" fxFlex data-cy="session-card">
           <mat-card-header>
             <mat-card-title>{{ session.name }}</mat-card-title>
             <mat-card-subtitle>
@@ -35,6 +35,7 @@
               mat-raised-button
               color="primary"
               [routerLink]="['detail', session.id]"
+              data-cy="session-detail"
             >
               <mat-icon>search</mat-icon>
               <span class="ml1">Detail</span>
@@ -46,6 +47,7 @@
                 color="primary"
                 [routerLink]="['update', session.id]"
                 data-testid="edit-session-button"
+                data-cy="edit-session-button"
               >
                 <mat-icon>edit</mat-icon>
                 <span class="ml1">Edit</span>
