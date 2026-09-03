@@ -43,6 +43,7 @@ public class UserServiceTest {
 
     private User user;
 
+
     @BeforeEach
     void setUp() {
         user = UserTestFactory.createAdminUser();
@@ -54,29 +55,35 @@ public class UserServiceTest {
         SecurityContextHolder.clearContext();
     }
 
-    //    delete(Long id)
+    /**
+     *  delete(Long id)
+     */
 
     @Test
     public void shouldDeleteUserWhenAuthenticatedUserMatchesUserEmail() {
-        when(userRepository.findById(user.getId()))
-                .thenReturn(Optional.of(user));
+        when(userRepository.existsById(user.getId()))
+                .thenReturn(true);
+        when(userRepository.getReferenceById(user.getId()))
+                .thenReturn(user);
 
         UserDetails userDetails = mock(UserDetails.class);
         when(userDetails.getUsername())
                 .thenReturn(user.getEmail());
 
-        SecurityContext securityContext = mock(SecurityContext.class);
         Authentication authentication = mock(Authentication.class);
+        when(authentication.getPrincipal())
+                .thenReturn(userDetails);
 
+        SecurityContext securityContext = mock(SecurityContext.class);
         when(securityContext.getAuthentication())
                 .thenReturn(authentication);
-        when(authentication.getPrincipal())
-            .thenReturn(userDetails);
 
         SecurityContextHolder.setContext(securityContext);
 
         userService.delete(user.getId());
 
+        verify(userRepository).existsById(user.getId());
+        verify(userRepository).getReferenceById(user.getId());
         verify(userRepository).deleteById(user.getId());
 
         SecurityContextHolder.clearContext();
@@ -84,73 +91,68 @@ public class UserServiceTest {
 
     @Test
     public void shouldThrowNotFoundExceptionWhenDeletingNonExistingUser() {
-        when(userRepository.findById(1L))
-                .thenReturn(Optional.empty());
+        Long userId = 1L;
 
-        assertThatThrownBy(() -> userService.delete(1L))
+        when(userRepository.existsById(userId))
+                .thenReturn(false);
+
+        assertThatThrownBy(() ->
+                userService.delete(userId)
+        )
                 .isInstanceOf(NotFoundException.class);
 
-        verify(userRepository, never()).deleteById(user.getId());
+        verify(userRepository).existsById(userId);
+
+        verify(userRepository, never())
+                .getReferenceById(anyLong());
+
+        verify(userRepository, never())
+                .deleteById(anyLong());
     }
 
     @Test
     public void shouldThrowUnauthorizedExceptionWhenAuthenticatedUserDoesNotMatchUserEmail() {
-        User secondUser  = UserTestFactory.createUser();
+        User secondUser = UserTestFactory.createUser();
         secondUser.setId(2L);
         secondUser.setEmail("second-user@test.com");
-        when(userRepository.findById(secondUser.getId()))
-            .thenReturn(Optional.of(secondUser));
+
+        when(userRepository.existsById(secondUser.getId()))
+                .thenReturn(true);
+
+        when(userRepository.getReferenceById(secondUser.getId()))
+                .thenReturn(secondUser);
 
         UserDetails userDetails = mock(UserDetails.class);
         when(userDetails.getUsername())
                 .thenReturn(user.getEmail());
 
-        SecurityContext securityContext = mock(SecurityContext.class);
         Authentication authentication = mock(Authentication.class);
-
-        when(securityContext.getAuthentication())
-                .thenReturn(authentication);
         when(authentication.getPrincipal())
                 .thenReturn(userDetails);
 
+        SecurityContext securityContext = mock(SecurityContext.class);
+        when(securityContext.getAuthentication())
+                .thenReturn(authentication);
+
         SecurityContextHolder.setContext(securityContext);
 
-        assertThatThrownBy(() -> userService.delete(secondUser.getId()))
+        assertThatThrownBy(() ->
+                userService.delete(secondUser.getId())
+        )
                 .isInstanceOf(UnauthorizedException.class);
 
+        verify(userRepository).existsById(secondUser.getId());
+        verify(userRepository).getReferenceById(secondUser.getId());
 
-        verify(userRepository, never()).deleteById(secondUser.getId());
-
-        SecurityContextHolder.clearContext();
-    }
-
-    @Test
-    public void shouldDeleteUserWhenAuthenticatedUsernameMatchesUserEmail() {
-        when(userRepository.findById(user.getId()))
-                .thenReturn(Optional.of(user));
-
-        UserDetails userDetails = mock(UserDetails.class);
-        when(userDetails.getUsername())
-                .thenReturn(user.getEmail());
-
-        SecurityContext securityContext = mock(SecurityContext.class);
-        Authentication authentication = mock(Authentication.class);
-
-        when(securityContext.getAuthentication())
-                .thenReturn(authentication);
-        when(authentication.getPrincipal())
-                .thenReturn(userDetails);
-
-        SecurityContextHolder.setContext(securityContext);
-
-        userService.delete(user.getId());
-
-        verify(userRepository, times(1)).deleteById(user.getId());
+        verify(userRepository, never())
+                .deleteById(anyLong());
 
         SecurityContextHolder.clearContext();
     }
 
-    //    findById(Long id)
+    /**
+     *  findById(Long id)
+     */
 
     @Test
     public void shouldReturnUserWhenUserExists() {

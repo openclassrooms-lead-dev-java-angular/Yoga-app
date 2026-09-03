@@ -51,7 +51,7 @@ public class JwtServiceTest {
         authentication = mock(Authentication.class);
         when(authentication.getPrincipal()).thenReturn(userPrincipal);
 
-        Jwt jwt = mock(Jwt.class);
+        jwt = mock(Jwt.class);
         when(jwtEncoder.encode(any(JwtEncoderParameters.class)))
                 .thenReturn(jwt);
     }
