@@ -34,7 +34,7 @@ public class AuthService {
         User user = userMapper.toEntity(signUpRequestDto);
         user.setAdmin(false);
 
-        this.userService.save(user);
+        userService.save(user);
 
         return new MessageResponseDto("User registered successfully!");
     }

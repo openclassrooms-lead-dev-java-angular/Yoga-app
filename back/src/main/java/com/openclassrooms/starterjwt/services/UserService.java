@@ -24,7 +24,6 @@ public class UserService {
 
     @Transactional
     public void delete(Long id) {
-
         User user = userRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
@@ -35,33 +34,31 @@ public class UserService {
             throw new UnauthorizedException();
         }
 
-        this.userRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
     @Transactional(readOnly = true)
     public User findById(Long id) {
-        return this.userRepository
+        return userRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
     }
 
     @Transactional(readOnly = true)
     public UserDto loadById(Long id) {
-
-        User user = this.userRepository
+        return userRepository
                 .findById(id)
+                .map(userMapper::toDto)
                 .orElseThrow(NotFoundException::new);
-
-        return userMapper.toDto(user);
     }
 
     @Transactional
     public void save(User user) {
-        this.userRepository.save(user);
+        userRepository.save(user);
     }
 
     @Transactional(readOnly = true)
     public Boolean existsByEmail(String email) {
-        return this.userRepository.existsByEmail(email);
+        return userRepository.existsByEmail(email);
     }
 }

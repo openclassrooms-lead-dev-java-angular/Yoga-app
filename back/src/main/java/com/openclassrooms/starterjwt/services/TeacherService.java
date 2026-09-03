@@ -20,23 +20,22 @@ public class TeacherService {
 
     @Transactional(readOnly = true)
     public List<TeacherDto> findAll() {
-        List<Teacher> teachers = teacherRepository.findAll();
-
-        return teacherMapper.toDto(teachers);
+        return teacherMapper.toDto(
+                teacherRepository.findAll()
+        );
     }
 
     @Transactional(readOnly = true)
     public TeacherDto findTeacherById(Long id) {
-        Teacher teacher =  this.teacherRepository
+        return teacherRepository
                 .findById(id)
+                .map(teacherMapper::toDto)
                 .orElseThrow(NotFoundException::new);
-
-        return teacherMapper.toDto(teacher);
     }
 
     @Transactional(readOnly = true)
     public Teacher findById(Long id) {
-        return  this.teacherRepository
+        return teacherRepository
                 .findById(id)
                 .orElseThrow(NotFoundException::new);
     }
