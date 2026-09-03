@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -39,7 +38,8 @@ public class SessionService {
 
     @Transactional()
     public void delete(Long id) {
-        Session session = this.sessionRepository.findById(id)
+        Session session = sessionRepository
+                .findById(id)
                 .orElseThrow(NotFoundException::new);
 
         sessionRepository.delete(session);
@@ -48,19 +48,17 @@ public class SessionService {
 
     @Transactional(readOnly = true)
     public List<SessionDto> findAll() {
-
-        List<Session> sessions =  this.sessionRepository.findAll();
-
-        return this.sessionMapper.toDto(sessions);
+        return sessionMapper.toDto(
+                sessionRepository.findAll()
+        );
     }
 
     @Transactional(readOnly = true)
     public SessionDto getById(Long id) {
-        Session session =  this.sessionRepository
+        return sessionRepository
                 .findById(id)
+                .map(sessionMapper::toDto)
                 .orElseThrow(NotFoundException::new);
-
-        return this.sessionMapper.toDto(session);
     }
 
     @Transactional()
@@ -73,59 +71,60 @@ public class SessionService {
         sessionDto.setId(id);
 
         Session currentSession = sessionRepository
-                .findById(id)
-                .orElseThrow(NotFoundException::new);
+                .getReferenceById(id);
 
         sessionMapper.updateEntity(sessionDto, currentSession);
 
-        Session updatedSession = sessionRepository.save(currentSession);
+        log.info("Session updated with id {}", currentSession.getId());
 
-        log.info("Session updated with id ");
-        return sessionMapper.toDto(updatedSession);
+        return sessionMapper.toDto(
+                sessionRepository.save(currentSession)
+        );
     }
 
     @Transactional()
     public void participate(Long id, Long userId) {
-        // exist by id
-        Session session = this.sessionRepository
-                .findById(id)
-                .orElseThrow(NotFoundException::new);
 
-        User user = this.userRepository
-                .findById(userId)
-                .orElseThrow(NotFoundException::new);
+        if (!sessionRepository.existsById(id)
+                || !userRepository.existsById(userId)) {
+            throw new NotFoundException();
+        }
 
-        if (alreadyParticipate(session, userId)) {
+        if (sessionRepository.existsByIdAndUsersId(id, userId)) {
             throw new BadRequestException();
         }
 
+        Session session = sessionRepository
+                .getReferenceById(id);
+        User user = userRepository
+                .getReferenceById(userId);
+
         session.getUsers().add(user);
 
-        this.sessionRepository.save(session);
+        sessionRepository.save(session);
     }
 
     @Transactional()
     public void noLongerParticipate(Long id, Long userId) {
-        // exist by ...
-        // user in session, user exists- jpa
-        Session session = this.sessionRepository
-                .findById(id)
-                .orElseThrow(NotFoundException::new);
 
-        if (!alreadyParticipate(session, userId)) {
+        if (!sessionRepository.existsById(id)) {
+            throw new NotFoundException();
+        }
+        if (
+                sessionRepository.existsByIdAndUsersId(id, userId)
+                || !sessionRepository.existsByIdAndUsersId(id, userId)
+        ) {
             throw new BadRequestException();
         }
 
-        session.setUsers(session.getUsers().stream().filter(user -> !user.getId().equals(userId)).collect(Collectors.toList()));
-//        session.getUsers().removeIf(user -> user.getId().equals(userId));
-        this.sessionRepository.save(session);
+        Session session = sessionRepository
+                .getReferenceById(id);
+
+        session.getUsers().removeIf(
+                user -> user.getId().equals(userId)
+        );
+
+        sessionRepository.save(session);
     }
 
-    private Boolean alreadyParticipate(Session session, Long userId) {
-        // check with srping data jpa.
-        return session
-                .getUsers()
-                .stream()
-                .anyMatch(o -> o.getId().equals(userId));
-    }
 }

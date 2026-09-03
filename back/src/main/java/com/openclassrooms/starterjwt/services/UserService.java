@@ -6,6 +6,7 @@ import com.openclassrooms.starterjwt.exception.UnauthorizedException;
 import com.openclassrooms.starterjwt.mapper.UserMapper;
 import com.openclassrooms.starterjwt.models.User;
 import com.openclassrooms.starterjwt.repository.UserRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Objects;
 
+@Log4j2
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -24,17 +26,24 @@ public class UserService {
 
     @Transactional
     public void delete(Long id) {
-        User user = userRepository
-                .findById(id)
-                .orElseThrow(NotFoundException::new);
+        if (!userRepository.existsById(id)) {
+            throw new NotFoundException();
+        }
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository
+                .getReferenceById(id);
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
 
         if (!Objects.equals(userDetails.getUsername(), user.getEmail())) {
             throw new UnauthorizedException();
         }
 
         userRepository.deleteById(id);
+        log.info("User deleted with id {}", id);
     }
 
     @Transactional(readOnly = true)
@@ -55,6 +64,7 @@ public class UserService {
     @Transactional
     public void save(User user) {
         userRepository.save(user);
+        log.info("User saved with id {}", user.getId());
     }
 
     @Transactional(readOnly = true)
